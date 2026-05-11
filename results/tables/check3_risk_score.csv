@@ -1,0 +1,5 @@
+Specification,R²,N
+Forecasts only,0.5082,143
+Forecasts + Dict PC1,0.5588,143
+Forecasts + Risk Score,0.5357,143
+Forecasts + Dict PC1 + Risk,0.5702,143

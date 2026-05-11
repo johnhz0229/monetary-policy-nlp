@@ -1,0 +1,11 @@
+{
+  "mid_orig": 0.6386,
+  "mid_llm": 0.6848,
+  "full_orig": 0.9632,
+  "full_llm": 1.0,
+  "full_orig_shuffle_drop": 0.030299999999999994,
+  "full_llm_shuffle_drop": 0.02576999999999985,
+  "n": 204,
+  "orig_p": 296,
+  "llm_p": 595
+}

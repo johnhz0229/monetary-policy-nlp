@@ -1,0 +1,6 @@
+specification,n,p,ridge_r2,ridge_alpha,lasso_r2,lasso_alpha,lasso_nonzero,enet_r2,enet_alpha,enet_l1_ratio
+A. Orig sentiments,204,296,0.6986,573.6153,0.5751,0.024,27,0.5855,0.024,0.95
+B. Orig sentiments + forecasts,204,313,0.7145,573.6153,0.5879,0.024,24,0.5656,0.2593,0.1
+C. LLM sentiments,204,595,0.6592,573.6153,0.5594,0.024,28,0.526,0.2593,0.1
+D. LLM sentiments + forecasts,204,612,0.6825,573.6153,0.5845,0.024,25,0.5598,0.2593,0.1
+E. Forecasts only,204,17,0.4434,85.3168,0.3835,0.0356,4,0.3953,0.2593,0.1

@@ -1,0 +1,8 @@
+metric,value
+actual_r2,0.4582
+placebo_mean,0.47929299999999997
+placebo_std,0.012053101302154564
+placebo_min,0.4671
+placebo_max,0.4981
+p_value,1.0
+n_placebo,100.0

@@ -1,0 +1,265 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{xcolor}
+\usepackage{float}
+
+\title{Discussion Notes:\\[4pt] {\large Questions and Extensions from the AD(2024) Robustness Presentation}}
+\author{Huang Zheng}
+\date{May 2026}
+
+\begin{document}
+\maketitle
+
+\vspace{-12pt}
+{\small\color{gray} These notes supplement the presentation (\texttt{results/beamer\_presentation.pdf}) with mathematical derivations, additional experiments, and responses to questions from classmates and faculty.}
+
+\vspace{8pt}
+\hrule
+\vspace{12pt}
+
+% ======================================================================
+\section*{Q1: Does shuffling concept labels actually change the Ridge fit?}
+% ======================================================================
+
+\textit{The question:} If you randomly relabel all 296 concepts within each meeting, the within-meeting distribution of sentiment scores is preserved. Does Ridge regression actually produce a different fit? Or is it just computing the same linear combination?
+
+\medskip
+\textbf{Short answer:} For the original 296 concepts (86\% pro-cyclical), the Ridge fit is nearly unchanged because the dominant singular vector of the design matrix captures a meeting-level ``document tone'' that is invariant to column permutation.
+
+\subsection*{Mathematical Derivation}
+
+Let $X \in \mathbb{R}^{n \times p}$ be the standardized sentiment matrix ($n=204$ meetings, $p=296$ concepts). The key empirical fact is that the first singular value dominates:
+
+\begin{equation}
+X \approx \sigma_1 \mathbf{u}_1 \mathbf{v}_1^\top, \quad \frac{\sigma_1^2}{\sum_{i=1}^n \sigma_i^2} \approx 10.6\%
+\end{equation}
+
+where $\mathbf{u}_1 \in \mathbb{R}^n$ captures meeting-level document tone and $\mathbf{v}_1 \in \mathbb{R}^p$ captures concept-level loadings. The remaining $p-1$ singular directions collectively explain 89.4\% of the Frobenius norm but are individually small.
+
+A column permutation $P \in \mathbb{R}^{p \times p}$ transforms the design matrix to $\tilde{X} = XP$. The Ridge estimator with penalty $\lambda$ is:
+
+\begin{equation}
+\hat{\boldsymbol{\beta}}(\lambda) = (X^\top X + \lambda I)^{-1} X^\top \mathbf{y}
+\end{equation}
+
+Under the rank-1 approximation $X \approx \sigma \mathbf{u} \mathbf{v}^\top$:
+
+\begin{align}
+X^\top X &\approx \sigma^2 \mathbf{v} \mathbf{v}^\top \\
+\tilde{X}^\top \tilde{X} &= P^\top X^\top X P \approx \sigma^2 (P^\top \mathbf{v})(P^\top \mathbf{v})^\top
+\end{align}
+
+Both have rank 1 with the same dominant eigenvalue $\sigma^2 \|\mathbf{v}\|^2$. The Ridge fitted values are:
+
+\begin{equation}
+\hat{\mathbf{y}} = X(X^\top X + \lambda I)^{-1} X^\top \mathbf{y} \approx \frac{\sigma^2 \|\mathbf{v}\|^2}{\sigma^2 \|\mathbf{v}\|^2 + \lambda} \cdot \mathbf{u} \mathbf{u}^\top \mathbf{y}
+\end{equation}
+
+This expression is \textbf{independent of $\mathbf{v}$} (the concept loadings). Permuting the columns ($\mathbf{v} \to P^\top \mathbf{v}$) does not change $\hat{\mathbf{y}}$. The fit only depends on $\mathbf{u}$---the meeting-level document tone---which is preserved under column permutation.
+
+\medskip
+\textbf{What this means:} Ridge is not learning 296 independent signals. Under strong regularization ($\lambda = 924$, selected by CV), it is essentially computing a \textbf{weighted average} of 296 noisy measurements of the same underlying document tone. Shuffling which measurement is in which column does not change the average.
+
+---
+
+% ======================================================================
+\section*{Q2: What happens to the identified shocks and their macroeconomic effects?}
+% ======================================================================
+
+\textit{The question:} If we use the shuffled-label shocks in a Local Projections IRF, do they still produce the expected macroeconomic response? Is there a mathematical relationship?
+
+\subsection*{Mathematical Derivation}
+
+Let $\boldsymbol{\varepsilon} = \mathbf{y} - \hat{\mathbf{y}}(X)$ be the original shock and $\tilde{\boldsymbol{\varepsilon}} = \mathbf{y} - \hat{\mathbf{y}}(\tilde{X})$ be the shock from a single shuffle. Write:
+
+\begin{equation}
+\tilde{\boldsymbol{\varepsilon}} = \boldsymbol{\varepsilon} + \boldsymbol{\eta}, \quad \text{where } \boldsymbol{\eta} = \hat{\mathbf{y}}(X) - \hat{\mathbf{y}}(\tilde{X})
+\end{equation}
+
+\textbf{Key property:} By construction of Ridge, $\boldsymbol{\varepsilon} \perp \text{col}(X)$. Since $\boldsymbol{\eta} \in \text{col}(X) \cup \text{col}(\tilde{X})$, we have $\text{cov}(\boldsymbol{\varepsilon}, \boldsymbol{\eta}) = 0$. Therefore:
+
+\begin{equation}
+\text{corr}(\boldsymbol{\varepsilon}, \tilde{\boldsymbol{\varepsilon}}) = \frac{\sigma_\varepsilon}{\sigma_{\tilde{\varepsilon}}} = \sqrt{\frac{\text{var}(\boldsymbol{\varepsilon})}{\text{var}(\tilde{\boldsymbol{\varepsilon}})}}
+\end{equation}
+
+\textbf{Mean shuffle (100 runs):} Let $\tilde{\boldsymbol{\varepsilon}}^{(k)}$ be the shock from the $k$-th random permutation. The mean shuffled shock is:
+\begin{equation}
+\bar{\boldsymbol{\varepsilon}} = \frac{1}{100} \sum_{k=1}^{100} \tilde{\boldsymbol{\varepsilon}}^{(k)} = \boldsymbol{\varepsilon} + \frac{1}{100} \sum_{k=1}^{100} \boldsymbol{\eta}^{(k)}
+\end{equation}
+
+Each $\boldsymbol{\eta}^{(k)}$ has mean zero and is approximately independent across $k$ (different permutations). By the law of large numbers, $\frac{1}{100}\sum \boldsymbol{\eta}^{(k)} \to 0$, so $\bar{\boldsymbol{\varepsilon}} \approx \boldsymbol{\varepsilon}$.
+
+\textbf{Empirical result:} $\text{corr}(\boldsymbol{\varepsilon}, \bar{\boldsymbol{\varepsilon}}) = 0.96$, variance ratio $\approx 1.0$.
+
+\subsection*{Implications for IRF}
+
+Consider a Local Projection:
+\begin{equation}
+y_{t+h} - y_{t-1} = \alpha_h + \beta_h \varepsilon_t + \boldsymbol{\gamma}^\top \mathbf{w}_t + e_{t+h}
+\end{equation}
+
+With the shuffled shock $\tilde{\varepsilon}_t = \varepsilon_t + \eta_t$:
+\begin{align}
+\text{plim } \tilde{\beta}_h &= \frac{\text{cov}(\Delta y, \tilde{\varepsilon})}{\text{var}(\tilde{\varepsilon})}
+= \frac{\text{cov}(\Delta y, \varepsilon) + \text{cov}(\Delta y, \eta)}{\text{var}(\tilde{\varepsilon})}
+\end{align}
+
+If $\text{cov}(\Delta y, \eta) = 0$ (the lost information is orthogonal to future macro variables):
+\begin{equation}
+\tilde{\beta}_h = \frac{\text{var}(\varepsilon)}{\text{var}(\tilde{\varepsilon})} \cdot \beta_h
+\end{equation}
+
+The IRF \textbf{shape} is identical; only the amplitude is scaled. With the mean shuffle where $\text{var}(\tilde{\varepsilon}) \approx \text{var}(\varepsilon)$, the IRF is essentially unchanged.
+
+\subsection*{Empirical IRF Results}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{../results/figures/irf_comparison.png}
+\caption{Local Projections: unemployment response to a contractionary monetary shock. Original shock (blue) vs.\ mean shuffled shock (orange). The two IRFs are nearly identical, confirming the mathematical prediction.}
+\label{fig:irf}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{../results/figures/shock_scatter.png}
+\caption{Original vs.\ mean shuffled shock series. Correlation = 0.96.}
+\label{fig:scatter}
+\end{figure}
+
+The two shock series produce nearly identical impulse responses. This empirically validates that the concept-label identity does not affect the macroeconomic interpretation of the identified shocks.
+
+---
+
+% ======================================================================
+\section*{Q3: What is the intrinsic dimension of the model? Should we try Random Projections?}
+% ======================================================================
+
+\textit{The question:} With 3,224 variables on 204 observations, is the model overfitting? How many independent dimensions does the data actually have?
+
+\subsection*{Five Diagnostic Tests}
+
+\begin{table}[H]
+\centering
+\caption{Overfitting Diagnostics for the Full Specification}
+\label{tab:diag}
+\begin{tabular}{lp{4cm}cp{3.5cm}}
+\toprule
+\textbf{Test} & \textbf{Method} & \textbf{Key Result} & \textbf{Conclusion} \\
+\midrule
+A. Random Projection & Project $X$ to $k$ random directions & $k=1500$ (47\%) needed for 90\% $R^2$ & Signal not in very low dimension, but far below $p=3,224$ \\
+B. Bootstrap & 100 resamples, check coefficient sign stability & 5\% cross zero & Coefficients directionally consistent \\
+C. Noise Injection & Add $k$ columns of pure noise & +10\% noise $\Delta R^2 = +0.002$ & Regularization prevents noise-fitting \\
+D. Random Drop & Drop 50\% of sentiment columns & $\Delta R^2 = +0.075$ & Variables contain genuine information \\
+E. Residual AC & Ljung-Box, Durbin-Watson & DW = 1.84 & \textbf{Residuals are white noise} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Effective Rank}
+
+The effective rank (number of singular values needed to explain 90\% of total variance) is 155 out of 204 (76\%). This tells us:
+
+\begin{itemize}
+    \item The 3,224 variables span roughly 155 meaningful independent directions---not 3,224, but also not just 1.
+    \item Ridge with $\lambda = 924$ shrinks the remaining $\sim$50 directions to near zero.
+    \item This is \textbf{not} overfitting: the residuals are white noise, noise injection does not inflate $R^2$, and bootstrap coefficients are stable.
+\end{itemize}
+
+\textbf{Bottom line:} The model is highly redundant (3,224 variables $\to$ $\sim$155 effective dimensions), but Ridge regularization successfully handles this redundancy. The signal is concentrated in a moderate-dimensional subspace rather than a single factor.
+
+---
+
+% ======================================================================
+\section*{Q4: What if we used a different concept list?}
+% ======================================================================
+
+\textit{The question:} The concept list is 86\% pro-cyclical. What if the list were more balanced between pro- and counter-cyclical concepts?
+
+\subsection*{Experiment: Same Size, Varying Composition}
+
+We construct three concept lists of equal size (68 concepts each), all scored by the same LM dictionary within $\pm$10-word windows. The only difference is the pro-/counter-cyclical composition:
+
+\begin{table}[H]
+\centering
+\caption{Same Size, Different Composition}
+\label{tab:comp}
+\begin{tabular}{lccc}
+\toprule
+\textbf{List (68 concepts each)} & \textbf{Pro-/Counter-} & \textbf{Full $R^2$} & \textbf{CV $\alpha$} \\
+\midrule
+100\% Pro-cyclical  & 68p / 0c   & 0.86 & 574 \\
+Random (mirrors original) & 57p / 11c  & 0.83 & 924 \\
+50/50 Balanced      & 34p / 34c  & 0.75 & 1,487 \\
+\midrule
+\textit{For reference:} & & & \\
+\quad Original 296  & 256p / 34c & 0.96 & 924 \\
+\quad Balanced 296 (LLM) & 148p / 148c & 1.00 & $\approx 1$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Why the CV $\alpha$ Changes}
+
+The Ridge CV objective can be written in the SVD basis as:
+\begin{equation}
+\text{CV}(\alpha) \propto \sum_{i=1}^n \frac{\sigma_i^2}{(\sigma_i^2 + \alpha)^2} (\mathbf{u}_i^\top \mathbf{y})^2
+\end{equation}
+
+When $\sigma_1 \gg \sigma_2$ (strong common factor, as in 100\% pro-cyclical), the optimal $\alpha$ is large because shrinking higher dimensions costs little in fit but greatly reduces variance. When the singular values are more evenly distributed (50/50 balanced), each dimension appears to carry independent signal, so CV selects a small $\alpha$.
+
+\textbf{For the balanced 296-concept list}, the singular value spectrum is flat enough that CV selects $\alpha \approx 1$---essentially no regularization. With $p/n \approx 15.8$, this produces $R^2 = 1.00$, a clear case of overfitting.
+
+\textbf{Key insight:} AD(2024)'s method is robust \textit{conditional on the concept list being dominated by a common factor}. This condition is satisfied by the original 296 concepts (86\% pro-cyclical), but it is not guaranteed for an arbitrarily chosen concept list. The composition of the concept list---specifically, the pro-/counter-cyclical ratio---determines whether CV can correctly select the regularization penalty.
+
+---
+
+% ======================================================================
+\section*{Q5: LLM 595 vs. Original 296 Benchmark}
+% ======================================================================
+
+For completeness, we benchmark the LLM-identified 595 concepts against the original 296, using identical dictionary scoring:
+
+\begin{table}[H]
+\centering
+\caption{Benchmark: Original 296 vs.\ LLM 595 (Mid Specification)}
+\label{tab:bench}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Specification} & \textbf{Variables} & \textbf{$R^2$} \\
+\midrule
+Forecasts only (no sentiment) & 132 & 0.49 \\
++ Original 296 sentiments & 428 & 0.64 \\
++ LLM 595 sentiments & 727 & 0.68 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The LLM list slightly outperforms the original in the mid specification (+0.05 $R^2$). However, the full specification (with lags and nonlinear terms) is not comparable: the LLM's 595 concepts produce 6,214 variables, causing $R^2 = 1.00$ (overfitting). This is consistent with the finding above: the LLM list is more balanced (52/42), leading to a flatter singular value spectrum and weaker regularization.
+
+---
+
+\section*{Summary of Key Results}
+
+\begin{enumerate}
+    \item \textbf{Shuffling labels barely changes the fit} because Ridge under strong regularization ($\lambda=924$) is essentially computing a weighted average of 296 noisy measurements of document tone. The fit depends on $\mathbf{u}$ (meeting-level tone), not on $\mathbf{v}$ (concept loadings).
+
+    \item \textbf{Mean shuffled shocks are nearly identical to original shocks} ($r = 0.96$). The IRF produced by the two shock series are essentially the same. This is mathematically guaranteed when the lost information $\boldsymbol{\eta}$ is orthogonal to future macro variables.
+
+    \item \textbf{The model does not overfit} despite $p/n = 15.8$. Ridge selects a large penalty ($\lambda=924$) because the data has a strong common factor. Five diagnostic tests confirm this.
+
+    \item \textbf{List composition determines regularization.} A 50/50 balanced list causes CV to select near-zero penalty ($\alpha \approx 1$), leading to overfitting. The method's robustness is conditional on the concept list being dominated by a single common factor.
+
+    \item \textbf{Concept selection matters at the level of list composition, not individual words.} Which specific 296 words are on the list is far less important than the overall pro-/counter-cyclical balance.
+\end{enumerate}
+
+\vspace{12pt}
+{\small\color{gray} All code is in \texttt{src/}. Results and figures are in \texttt{results/}. The presentation is at \texttt{results/beamer\_presentation.pdf}.}
+
+\end{document}

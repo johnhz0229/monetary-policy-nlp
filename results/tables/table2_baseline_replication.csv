@@ -1,0 +1,9 @@
+horizon,predictor,coefficient,se_newy_west,r_squared,n,significance,paper_coefficient,paper_r2
+Current Q,PC1 (all sentiments),-0.029,0.0148,0.0452,210,*,-0.445,0.248
+Current Q,Economic activity sentiment,-0.0264,0.0156,0.0332,210,*,-0.285,0.090
+1Q ahead,PC1 (all sentiments),-0.1139,0.0455,0.149,210,**,-0.445,0.248
+1Q ahead,Economic activity sentiment,-0.0978,0.0456,0.0974,210,**,-0.285,0.090
+1Y ahead,PC1 (all sentiments),-0.4451,0.1594,0.2475,210,***,-0.445,0.248
+1Y ahead,Economic activity sentiment,-0.2846,0.1433,0.0897,210,**,-0.285,0.090
+2Y ahead,PC1 (all sentiments),-0.622,0.2581,0.2083,62,**,-0.445,0.248
+2Y ahead,Economic activity sentiment,-0.3633,0.1689,0.0555,62,**,-0.285,0.090

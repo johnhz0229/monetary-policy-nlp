@@ -1,0 +1,21 @@
+horizon,spec,r2,coef,se,n,alpha,pval,f_stat,delta_r2,f_pval
+Current Q,Baseline (orig PC1),0.0445,-0.0254,,210,29.7635,,,,
+Current Q,"C1-LayerA (LLM score, 217 concepts)",0.0,0.0,,210,10000.0,,,,
+Current Q,"C1-LayerB (LLM score, 595 concepts)",0.0001,0.0,,210,10000.0,,,,
+Current Q,C2-Risk (unemp risk score),0.0061,0.0232,0.0281,149,,0.4097637701444998,,,
+Current Q,C2-Combined (PC1 + risk),0.0894,-0.0418,0.0192,149,,0.030839252928112963,1.5976,0.01,0.2083
+1Q ahead,Baseline (orig PC1),0.1484,-0.1066,,210,14.3845,,,,
+1Q ahead,"C1-LayerA (LLM score, 217 concepts)",0.0227,-0.012,,210,61.5848,,,,
+1Q ahead,"C1-LayerB (LLM score, 595 concepts)",0.0001,-0.0001,,210,10000.0,,,,
+1Q ahead,C2-Risk (unemp risk score),0.0947,0.2059,0.0776,149,,0.00886629765143537,,,
+1Q ahead,C2-Combined (PC1 + risk),0.2179,-0.1144,0.0581,149,,0.0507066448240235,0.5372,0.0029,0.4648
+1Y ahead,Baseline (orig PC1),0.2473,-0.4308,,210,6.9519,,,,
+1Y ahead,"C1-LayerA (LLM score, 217 concepts)",0.018,-0.0381,,210,14.3845,,,,
+1Y ahead,"C1-LayerB (LLM score, 595 concepts)",0.0,0.0001,,210,10000.0,,,,
+1Y ahead,C2-Risk (unemp risk score),0.1809,0.9233,0.3434,149,,0.007993997669663964,,,
+1Y ahead,C2-Combined (PC1 + risk),0.3142,-0.3858,0.1666,149,,0.021991711771225074,4.3248,0.0203,0.0393
+2Y ahead,Baseline (orig PC1),0.2062,-0.5593,,62,6.9519,,,,
+2Y ahead,"C1-LayerA (LLM score, 217 concepts)",0.0,-0.0,,62,0.0886,,,,
+2Y ahead,"C1-LayerB (LLM score, 595 concepts)",0.0,0.0,,62,0.0886,,,,
+2Y ahead,C2-Risk (unemp risk score),0.1825,1.4305,0.5718,53,,0.015608653426693857,,,
+2Y ahead,C2-Combined (PC1 + risk),0.2395,-0.3909,0.2398,53,,0.10938842313780685,3.3778,0.0514,0.072

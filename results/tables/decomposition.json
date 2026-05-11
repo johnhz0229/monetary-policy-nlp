@@ -1,0 +1,8 @@
+{
+  "fc_sq": 0.4937,
+  "contemp_tone": 0.1605,
+  "tone_persistence": 0.151,
+  "nonlinear_tone": 0.1195,
+  "label_consistency": 0.0385,
+  "total": 0.9632
+}

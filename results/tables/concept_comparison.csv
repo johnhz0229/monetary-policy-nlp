@@ -1,0 +1,596 @@
+llm_term,llm_category,llm_frequency_rank,matched_original,status
+prices,prices,1,,novel
+employment,labor,2,employment,matched
+federal reserve,financial,3,,novel
+labor,labor,4,,novel
+financial,financial,5,,novel
+industrial,real_activity,6,,novel
+markets,financial,7,,novel
+energy,prices,8,,novel
+production,real_activity,9,,novel
+spending,real_activity,10,,novel
+sales,real_activity,11,,novel
+growth,real_activity,12,,novel
+federal,fiscal,13,,novel
+rates,financial,14,,novel
+reserve,financial,15,reserves,matched
+housing,real_activity,16,housing,matched
+goods,real_activity,17,,novel
+price,prices,18,,novel
+inventories,real_activity,19,inventories,matched
+capital,financial,20,,novel
+interest,financial,21,,novel
+mortgage,financial,22,mortgage,matched
+demand,real_activity,23,,novel
+construction,real_activity,24,construction,matched
+trade,international,25,,novel
+equipment,real_activity,26,equipment,matched
+costs,prices,27,,novel
+bank,financial,28,bank,matched
+output,real_activity,29,output,matched
+balance,financial,30,,novel
+inventory,real_activity,31,inventory,matched
+oil,prices,32,,novel
+interest rates,financial,33,real interest rates,matched
+credit,financial,34,credit,matched
+economic activity,real_activity,35,economic activity,matched
+services,real_activity,36,services,matched
+banks,financial,37,banks,matched
+food,prices,38,,novel
+manufacturing,real_activity,39,,novel
+orders,real_activity,40,,novel
+starts,real_activity,41,,novel
+capacity,real_activity,42,capacity,matched
+foreign,international,43,,novel
+investment,real_activity,44,investment,matched
+firms,real_activity,45,firms,matched
+residential,real_activity,46,,novel
+purchases,real_activity,47,,novel
+expansion,real_activity,48,,novel
+nonresidential,real_activity,49,,novel
+cost,prices,50,,novel
+economy,real_activity,51,economy,matched
+outlook,other,52,,novel
+single family,real_activity,53,,novel
+commercial,real_activity,54,,novel
+retail,real_activity,55,,novel
+exports,international,56,exports,matched
+consumer spending,real_activity,57,consumer spending,matched
+imports,international,58,imports,matched
+unemployment,labor,59,unemployment,matched
+workers,labor,60,workers,matched
+income,prices,61,income,matched
+financing,financial,62,financing,matched
+businesses,real_activity,63,,novel
+products,real_activity,64,,novel
+industry,real_activity,65,,novel
+loans,financial,66,loans,matched
+expectations,other,67,,novel
+pressures,prices,68,,novel
+expenditures,real_activity,69,,novel
+shipments,real_activity,70,shipments,matched
+equity,financial,71,,novel
+auto,real_activity,72,autos,matched
+agricultural,real_activity,73,agriculture,matched
+supply,prices,74,supply,matched
+housing starts,real_activity,75,housing starts,matched
+inflation,prices,76,inflation,matched
+lending,financial,77,lending,matched
+loan,financial,78,loan,matched
+yields,financial,79,yields,matched
+vehicles,real_activity,80,,novel
+share,financial,81,,novel
+merchandise,international,82,merchandise,matched
+service,international,83,services,matched
+international,international,84,,novel
+dollar,international,85,,novel
+wages,prices,86,wages,matched
+tax,fiscal,87,,novel
+oil prices,prices,88,oil prices,matched
+debt,financial,89,,novel
+export,international,90,export,matched
+household,real_activity,91,households,matched
+mortgages,financial,92,mortgages,matched
+borrowing,financial,93,borrowing,matched
+consumers,real_activity,94,consumers,matched
+retail sales,real_activity,95,retail sales,matched
+homes,real_activity,96,homes,matched
+insurance,labor,97,,novel
+wage,prices,98,wage,matched
+utilization,real_activity,99,utilization,matched
+defense,fiscal,100,,novel
+labor market,labor,101,labor market,matched
+compensation,prices,102,,novel
+stocks,financial,103,stocks,matched
+deposits,financial,104,deposits,matched
+cash,financial,105,cash,matched
+crude,prices,106,,novel
+real estate,real_activity,107,,novel
+financial developments,financial,108,financial developments,matched
+import,international,109,import,matched
+profits,real_activity,110,profits,matched
+slowdown,real_activity,111,,novel
+unemployment rate,labor,112,,novel
+producers,real_activity,113,producers,matched
+potential,real_activity,114,,novel
+building,real_activity,115,building,matched
+deposit,financial,116,deposits,matched
+standards,financial,117,,novel
+industries,real_activity,118,industries,matched
+mexico,international,119,mexico,matched
+seasonal,other,120,,novel
+stock,financial,121,stocks,matched
+job,labor,122,jobs,matched
+nonresidential construction,real_activity,123,,novel
+materials,prices,124,,novel
+aircraft,real_activity,125,aircraft,matched
+rebound,real_activity,126,,novel
+vehicle,real_activity,127,,novel
+rose percent,prices,128,,novel
+easing,financial,129,leasing,matched
+home sales,real_activity,130,home sales,matched
+confidence,other,131,,novel
+vacancy,labor,132,,novel
+hiring,labor,133,hiring,matched
+price increases,prices,134,,novel
+money,financial,135,,novel
+permits,real_activity,136,permits,matched
+multifamily,real_activity,137,,novel
+capital spending,real_activity,138,capital spending,matched
+drilling,real_activity,139,,novel
+gas,prices,140,,novel
+crude oil,prices,141,crude oil,matched
+hours,labor,142,hours,matched
+outlays,fiscal,143,outlays,matched
+new orders,real_activity,144,new orders,matched
+energy prices,prices,145,energy prices,matched
+payroll,labor,146,payrolls,matched
+banking,financial,147,banking,matched
+farm,real_activity,148,farm,matched
+mortgage rates,financial,149,mortgage rates,matched
+recovery,real_activity,150,recovery,matched
+budget,fiscal,151,,novel
+year year,prices,152,,novel
+manufacturers,real_activity,153,manufacturers,matched
+productivity,labor,154,productivity,matched
+payments,international,155,,novel
+consumer credit,financial,156,,novel
+consumption,real_activity,157,consumption,matched
+fiscal,fiscal,158,,novel
+capital goods,real_activity,159,,novel
+policy,other,160,,novel
+annual rate,prices,161,,novel
+uncertainty,other,162,uncertainty,matched
+tight,labor,163,,novel
+jobs,labor,164,jobs,matched
+consumer loans,financial,165,,novel
+vacancy rates,real_activity,166,vacancy rates,matched
+market conditions,financial,167,,novel
+raise,financial,168,,novel
+labor costs,labor,169,,novel
+commodity,prices,170,,novel
+motor vehicles,real_activity,171,motor vehicles,matched
+machinery,real_activity,172,machinery,matched
+england,international,173,,novel
+capacity utilization,real_activity,174,,novel
+securities,financial,175,,novel
+tightening,financial,176,,novel
+goods services,real_activity,177,,novel
+earnings,labor,178,,novel
+barrel,prices,179,,novel
+mining,real_activity,180,mining,matched
+nonfinancial,financial,181,,novel
+intermediate,prices,182,,novel
+revenues,real_activity,183,,novel
+trucks,real_activity,184,trucks,matched
+transactions,real_activity,185,,novel
+exchange,international,186,,novel
+metals,prices,187,metals,matched
+increase percent,prices,188,,novel
+canada,international,189,canada,matched
+motor vehicle,real_activity,190,motor vehicles,matched
+japan,international,191,japan,matched
+economic growth,real_activity,192,economic growth,matched
+nonfarm,labor,193,,novel
+borrowers,financial,194,borrowers,matched
+price inflation,prices,195,,novel
+monetary,financial,196,,novel
+assets,financial,197,assets,matched
+transportation,real_activity,198,transportation,matched
+bond,financial,199,bonds,matched
+nominal,prices,200,,novel
+aggregate,other,201,,novel
+revenue,real_activity,202,,novel
+imported,international,203,import,matched
+factory,real_activity,204,factory,matched
+value dollar,international,205,,novel
+petroleum,prices,206,petroleum,matched
+payroll employment,labor,207,,novel
+lenders,financial,208,lenders,matched
+losses,financial,209,losses,matched
+sentiment,other,210,,novel
+state local,fiscal,211,,novel
+households,real_activity,212,households,matched
+residential construction,real_activity,213,,novel
+price index,prices,214,,novel
+estate loans,financial,215,,novel
+real estate loans,financial,216,,novel
+risk,financial,217,,novel
+yield,financial,218,yield,matched
+fomc,financial,219,,novel
+consumer prices,prices,220,consumer prices,matched
+spreads,financial,221,spreads,matched
+payrolls,labor,222,payrolls,matched
+domestic demand,real_activity,223,domestic demand,matched
+durable goods,real_activity,224,durable goods,matched
+gasoline,prices,225,,novel
+deficit,fiscal,226,,novel
+existing homes,real_activity,227,,novel
+basis points,financial,228,,novel
+benefits,labor,229,,novel
+purchasing,real_activity,230,,novel
+prices rose,prices,231,,novel
+housing activity,real_activity,232,housing activity,matched
+hourly,labor,233,,novel
+finished,prices,234,,novel
+durables,real_activity,235,durables,matched
+employees,labor,236,,novel
+receipts,real_activity,237,,novel
+natural gas,prices,238,natural gas,matched
+issuance,financial,239,,novel
+discount,financial,240,,novel
+provisions,financial,241,,novel
+hour,labor,242,hours,matched
+sales new,real_activity,243,,novel
+appreciation,international,244,,novel
+treasury,financial,245,,novel
+flows,financial,246,,novel
+automotive,real_activity,247,automotive,matched
+commodities,prices,248,commodities,matched
+car,real_activity,249,cars,matched
+interest rate,financial,250,,novel
+food energy,prices,251,,novel
+saving,real_activity,252,saving,matched
+delinquency,financial,253,,novel
+auto sales,real_activity,254,auto sales,matched
+industrial production,real_activity,255,industrial production,matched
+profit,prices,256,profit,matched
+labor force,labor,257,,novel
+autos,real_activity,258,autos,matched
+consumer price,prices,259,consumer price,matched
+bill,fiscal,260,,novel
+apparel,prices,261,apparel,matched
+surplus,fiscal,262,,novel
+consumer confidence,real_activity,263,consumer confidence,matched
+federal funds,financial,264,,novel
+margins,prices,265,,novel
+spread,financial,266,spread,matched
+disposable,real_activity,267,,novel
+open market,financial,268,,novel
+new homes,real_activity,269,,novel
+quarter percent,financial,270,,novel
+federal open market,financial,271,,novel
+nondefense,real_activity,272,,novel
+incentives,other,273,,novel
+steel,prices,274,steel,matched
+year percent,financial,275,,novel
+commercial industrial,real_activity,276,,novel
+open market committee,financial,277,,novel
+governments,fiscal,278,,novel
+michigan,prices,279,,novel
+currencies,international,280,currencies,matched
+deceleration,real_activity,281,,novel
+refinancing,financial,282,financing,matched
+united kingdom,international,283,united kingdom,matched
+current account,international,284,current account,matched
+exports imports,international,285,,novel
+exchange value,international,286,,novel
+claims,labor,287,,novel
+fixed investment,real_activity,288,,novel
+cpi,prices,289,cpi,matched
+cars,real_activity,290,cars,matched
+commercial real,real_activity,291,,novel
+balances,financial,292,,novel
+monetary policy,financial,293,,novel
+orders shipments,real_activity,294,,novel
+commercial real estate,real_activity,295,commercial real estate,matched
+new home,real_activity,296,,novel
+labor markets,labor,297,labor markets,matched
+construction activity,real_activity,298,,novel
+rate increase,financial,299,,novel
+finished goods,prices,300,finished goods,matched
+delinquency rates,financial,301,delinquency rates,matched
+bonds,financial,302,bonds,matched
+plant,real_activity,303,plants,matched
+economies,other,304,,novel
+manufacturing sector,real_activity,305,manufacturing sector,matched
+exchange value dollar,international,306,,novel
+reserve bank,financial,307,,novel
+buildings,real_activity,308,buildings,matched
+annual rate percent,prices,309,,novel
+corn,prices,310,corn,matched
+saving rate,real_activity,311,,novel
+foreign exchange,international,312,foreign exchange,matched
+wholesale,prices,313,,novel
+retail trade,real_activity,314,retail trade,matched
+gdp,real_activity,315,gdp,matched
+vehicle sales,real_activity,316,vehicle sales,matched
+automobile,real_activity,317,automobile,matched
+slack,labor,318,,novel
+local governments,fiscal,319,,novel
+federal reserve bank,financial,320,,novel
+economic conditions,other,321,economic conditions,matched
+taxes,fiscal,322,taxes,matched
+personal income,real_activity,323,,novel
+oil imports,international,324,oil imports,matched
+business loans,financial,325,,novel
+wheat,prices,326,wheat,matched
+germany,international,327,germany,matched
+asset,financial,328,asset,matched
+asia,international,329,asia,matched
+term interest,financial,330,,novel
+business sector,real_activity,331,,novel
+nonfarm business,real_activity,332,,novel
+semiconductors,real_activity,333,semiconductors,matched
+food prices,prices,334,food prices,matched
+consumer goods,real_activity,335,consumer goods,matched
+forecasts,other,336,,novel
+depreciation,real_activity,337,depreciation,matched
+brazil,international,338,brazil,matched
+money market,financial,339,money market,matched
+prices increased,prices,340,,novel
+yen,international,341,,novel
+two quarters,real_activity,342,,novel
+state local governments,fiscal,343,,novel
+purchasing managers,real_activity,344,,novel
+input,prices,345,,novel
+corporations,other,346,corporations,matched
+resource,other,347,,novel
+import prices,prices,348,import prices,matched
+term interest rates,financial,349,,novel
+savings,real_activity,350,savings,matched
+domestic nonfinancial,financial,351,,novel
+net exports,international,352,net exports,matched
+federal government,fiscal,353,,novel
+commodity prices,prices,354,commodity prices,matched
+labor market conditions,labor,355,,novel
+commercial banks,financial,356,,novel
+international developments,international,357,international developments,matched
+mortgage interest,financial,358,mortgage interest,matched
+agriculture,real_activity,359,agriculture,matched
+fixed rate,financial,360,,novel
+financial institutions,financial,361,financial institutions,matched
+futures,financial,362,,novel
+business fixed,real_activity,363,,novel
+nonfarm payroll,labor,364,,novel
+rigs,real_activity,365,rigs,matched
+business fixed investment,real_activity,366,,novel
+funding,financial,367,,novel
+consumer price index,prices,368,,novel
+personal consumption,real_activity,369,,novel
+home prices,prices,370,home prices,matched
+non oil,prices,371,,novel
+account balance,international,372,,novel
+output hour,labor,373,output per hour,matched
+appliances,real_activity,374,,novel
+fuel,prices,375,fuel,matched
+retailers,real_activity,376,,novel
+opec,international,377,,novel
+pricing,prices,378,,novel
+current account balance,international,379,,novel
+growth slowed,real_activity,380,,novel
+unemployment rate percent,labor,381,,novel
+rates percent,financial,382,,novel
+credit quality,financial,383,credit quality,matched
+rental,prices,384,,novel
+crops,prices,385,crop,matched
+recession,real_activity,386,recession,matched
+compensation hour,labor,387,compensation per hour,matched
+home equity,financial,388,home equity,matched
+credit card,financial,389,,novel
+family housing,real_activity,390,,novel
+nonfarm payroll employment,labor,391,,novel
+home mortgages,financial,392,,novel
+currency,financial,393,,novel
+real gdp,real_activity,394,,novel
+personal saving,real_activity,395,,novel
+financial markets,financial,396,financial markets,matched
+civilian unemployment,labor,397,,novel
+personal saving rate,real_activity,398,,novel
+livestock,prices,399,livestock,matched
+commercial paper,financial,400,commercial paper,matched
+greenbook,other,401,,novel
+crop,prices,402,crop,matched
+civilian unemployment rate,labor,403,,novel
+gap,real_activity,404,,novel
+benefit,fiscal,405,,novel
+high tech,other,406,,novel
+averages,financial,407,,novel
+west texas,prices,408,,novel
+stock market,financial,409,stock market,matched
+growth real,real_activity,410,,novel
+auto dealers,real_activity,411,,novel
+mergers,financial,412,mergers,matched
+nondurables,real_activity,413,,novel
+funds rate,financial,414,,novel
+stock prices,financial,415,stock prices,matched
+nonfarm business sector,real_activity,416,,novel
+cds,financial,417,,novel
+disposable income,real_activity,418,,novel
+accumulation,real_activity,419,,novel
+contraction,real_activity,420,construction,matched
+trade deficit,international,421,trade deficit,matched
+single family housing,real_activity,422,,novel
+surplus deficit,fiscal,423,,novel
+soybeans,prices,424,soybeans,matched
+quarter pace,real_activity,425,,novel
+higher prices,prices,426,,novel
+liabilities,financial,427,liabilities,matched
+installment,financial,428,,novel
+housing market,real_activity,429,,novel
+manufacturing activity,real_activity,430,manufacturing activity,matched
+lumber,prices,431,lumber,matched
+federal funds rate,financial,432,,novel
+unit labor,labor,433,,novel
+consumer price inflation,prices,434,,novel
+inventory investment,real_activity,435,,novel
+applications,financial,436,,novel
+employed,labor,437,,novel
+capital expenditures,real_activity,438,capital expenditures,matched
+growth rates,real_activity,439,,novel
+plants,real_activity,440,plants,matched
+loss,financial,441,,novel
+time deposits,financial,442,,novel
+commerce,real_activity,443,commerce,matched
+home mortgage,financial,444,,novel
+loan demand,financial,445,loan demand,matched
+china,international,446,china,matched
+workweek,labor,447,,novel
+nonresidential structures,real_activity,448,,novel
+delinquencies,financial,449,delinquencies,matched
+business conditions,real_activity,450,business conditions,matched
+loans commercial,financial,451,,novel
+wages prices,prices,452,,novel
+industrial countries,international,453,major industrial countries,matched
+unemployment insurance,labor,454,unemployment insurance,matched
+gdp growth,real_activity,455,,novel
+rents,prices,456,rents,matched
+salaries,labor,457,salaries,matched
+growth consumer,real_activity,458,,novel
+crude oil prices,prices,459,,novel
+acquisitions,financial,460,,novel
+chemicals,prices,461,chemicals,matched
+bank lending,financial,462,,novel
+financial market,financial,463,financial markets,matched
+texas intermediate,prices,464,,novel
+annual rates,prices,465,,novel
+new home sales,real_activity,466,,novel
+financial conditions,financial,467,financial conditions,matched
+demand deposits,financial,468,,novel
+west texas intermediate,prices,469,,novel
+gasoline prices,prices,470,gasoline prices,matched
+real disposable,real_activity,471,,novel
+bank credit,financial,472,,novel
+hourly compensation,labor,473,hourly compensation,matched
+utilities,prices,474,utilities,matched
+layoffs,labor,475,,novel
+sales percent,real_activity,476,,novel
+technology,other,477,technology,matched
+budget deficit,fiscal,478,budget deficit,matched
+liquidity,financial,479,liquidity,matched
+trade balance,international,480,trade balance,matched
+inflationary,prices,481,inflation,matched
+consumption expenditures,real_activity,482,,novel
+realtors,real_activity,483,,novel
+volumes,real_activity,484,,novel
+shares,financial,485,,novel
+nonfinancial developments,other,486,financial developments,matched
+oil gas,prices,487,,novel
+housing markets,real_activity,488,,novel
+percent gdp,fiscal,489,,novel
+argentina,international,490,argentina,matched
+retail prices,prices,491,retail prices,matched
+foreign industrial,international,492,,novel
+loan growth,financial,493,,novel
+nipa,real_activity,494,,novel
+employment growth,labor,495,,novel
+optimism,other,496,,novel
+new car,real_activity,497,,novel
+buyers,real_activity,498,,novel
+nondefense capital,real_activity,499,nondefense capital,matched
+light trucks,real_activity,500,,novel
+nondefense capital goods,real_activity,501,nondefense capital goods,matched
+liquid,financial,502,,novel
+shortages,prices,503,,novel
+latin america,international,504,latin america,matched
+drilling rigs,real_activity,505,,novel
+volatility,financial,506,volatility,matched
+mortgage loans,financial,507,,novel
+wage increases,prices,508,,novel
+bond yields,financial,509,,novel
+industrial loans,financial,510,,novel
+non oil imports,international,511,oil imports,matched
+general merchandise,real_activity,512,,novel
+state local government,fiscal,513,,novel
+pce,prices,514,,novel
+treasury securities,financial,515,treasury securities,matched
+gross domestic,real_activity,516,,novel
+disposable personal,real_activity,517,,novel
+commercial industrial loans,financial,518,,novel
+personal consumption expenditures,real_activity,519,,novel
+gas prices,prices,520,gas prices,matched
+business spending,real_activity,521,business spending,matched
+software,real_activity,522,software,matched
+manufacturing production,real_activity,523,,novel
+short term interest,financial,524,,novel
+investments,real_activity,525,investments,matched
+units annual,real_activity,526,,novel
+homebuilders,real_activity,527,,novel
+france,international,528,france,matched
+nondurable,real_activity,529,,novel
+merger,financial,530,mergers,matched
+quarter growth,real_activity,531,,novel
+existing home,real_activity,532,,novel
+cotton,prices,533,cotton,matched
+term rates,financial,534,,novel
+lending standards,financial,535,lending standards,matched
+discretionary,real_activity,536,,novel
+residential mortgage,financial,537,,novel
+real gdp growth,real_activity,538,,novel
+italy,international,539,italy,matched
+exchange rate,international,540,exchange rate,matched
+par,financial,541,,novel
+account deficit,international,542,,novel
+imported oil,prices,543,imported oil,matched
+current account deficit,international,544,,novel
+loan rates,financial,545,loan rates,matched
+foreign industrial countries,international,546,foreign industrial countries,matched
+consumer installment,financial,547,,novel
+rate growth,prices,548,,novel
+downturn,real_activity,549,,novel
+hourly earnings,labor,550,hourly earnings,matched
+maturity,financial,551,,novel
+stimulus,fiscal,552,,novel
+package,fiscal,553,,novel
+mortgage backed,financial,554,,novel
+change annual rate,prices,555,,novel
+mutual funds,financial,556,,novel
+adjusted annual rate,real_activity,557,,novel
+average rate,financial,558,,novel
+automakers,real_activity,559,,novel
+cutbacks,real_activity,560,,novel
+slower growth,real_activity,561,,novel
+exports goods,international,562,,novel
+labor force participation,labor,563,labor force participation,matched
+health care,prices,564,health care,matched
+prices expected,prices,565,,novel
+properties,real_activity,566,,novel
+premiums,prices,567,,novel
+backlogs,real_activity,568,,novel
+nonagricultural,labor,569,,novel
+reserves,financial,570,reserves,matched
+portfolio,financial,571,,novel
+consumer loan,financial,572,,novel
+gnp,real_activity,573,gnp,matched
+input prices,prices,574,input prices,matched
+family homes,real_activity,575,,novel
+prices declined,prices,576,,novel
+business investment,real_activity,577,,novel
+automobiles,real_activity,578,automobile,matched
+depository,financial,579,,novel
+bills,financial,580,,novel
+inflation rate,prices,581,,novel
+prime rate,financial,582,,novel
+unit labor costs,labor,583,unit labor costs,matched
+prices fell,prices,584,,novel
+corporate bonds,financial,585,,novel
+inflation expectations,prices,586,inflation expectations,matched
+capital equipment,real_activity,587,,novel
+central bank,financial,588,,novel
+final sales,real_activity,589,final sales,matched
+bond issuance,financial,590,bond issuance,matched
+single family homes,real_activity,591,,novel
+land,real_activity,592,,novel
+deficits,fiscal,593,,novel
+refunding,fiscal,594,,novel
+rate mortgages,financial,595,,novel

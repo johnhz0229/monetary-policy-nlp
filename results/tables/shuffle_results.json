@@ -1,0 +1,21 @@
+{
+  "r2_mid": 0.6386,
+  "r2_full": 0.9632,
+  "r2_fc": 0.4878,
+  "shuffle_mid_mean": 0.649664,
+  "shuffle_mid_std": 0.0336275438294265,
+  "shuffle_full_mean": 0.932948,
+  "shuffle_full_std": 0.04933856195715477,
+  "drop_mid": -0.0111,
+  "drop_full": 0.0303,
+  "decomp": {
+    "forecasts_sq": 0.4937,
+    "contemp_tone": 0.1605,
+    "tone_persistence": 0.1756,
+    "nonlinear_tone": 0.0648,
+    "label_consistency": 0.0686
+  },
+  "n_meetings": 204,
+  "n_forecasts": 132,
+  "n_sentiments": 296
+}
