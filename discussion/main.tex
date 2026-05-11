@@ -38,15 +38,15 @@ AD(2024) identify monetary policy shocks by regressing FFR changes on Greenbook 
 \section*{2. Shock Construction}
 % ======================================================================
 
-We construct three shock series, \textbf{all with the same pipeline} (sklearn RidgeCV, 10-fold CV, identical monthly conversion):
+We compare three shock series:
 
 \begin{enumerate}
-    \item \textbf{AD(2024) full spec} --- Ridge residuals from the full specification (3,224 variables, $\lambda = 924$). $R^2 = 0.96$.
-    \item \textbf{Shuffled labels (mean of 100)} --- Same specification, but within each meeting, the 296 sentiment scores are randomly permuted across concepts. The shock is the average residual across 100 independent permutations.
-    \item \textbf{Forecasts only (Romer-Romer style)} --- Ridge residuals using only Greenbook numerical forecasts and their squares (264 variables), without sentiment indicators. $R^2 = 0.49$.
+    \item \textbf{AD(2024) full spec} --- our replication. Ridge residuals from the full specification (3,224 variables, $\lambda = 924$, 10-fold CV). $R^2 = 0.96$.
+    \item \textbf{Shuffled labels (mean of 100)} --- same specification, but within each meeting, the 296 sentiment scores are randomly permuted. Average residual across 100 permutations.
+    \item \textbf{Romer-Romer (2004)} --- from the replication package. Uses only Greenbook numerical forecasts without sentiment indicators ($R^2 \approx 0.50$).
 \end{enumerate}
 
-All shocks are normalized to unit standard deviation. Correlations: full vs.\ shuffled $r = 0.96$, full vs.\ forecasts-only $r = 0.91$.
+All shocks normalized to unit standard deviation. Correlations: AD(2024) vs.\ shuffled $r = 0.96$, AD(2024) vs.\ Romer-Romer $r = 0.45$.
 
 % ======================================================================
 \section*{3. Why Shuffling Does Not Change the Fit}
@@ -84,16 +84,9 @@ All shocks normalized to unit standard deviation. Dependent variable is the cumu
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.88\textwidth]{../results/figures/irf_clean_comparison_v2.png}
-\caption{Cumulative IRF for six macro variables. AD(2024) full spec (blue, solid, with 95\% CI), shuffled labels (orange, dashed), and Romer-Romer 2004 (green, dash-dot). The AD(2024) and shuffled shocks produce essentially identical IRFs; Romer-Romer shocks are noisier.}
+\includegraphics[width=0.92\textwidth]{../results/figures/irf_clean_comparison_v2.png}
+\caption{Cumulative IRF for six macro variables. AD(2024) full spec (blue, solid, with 95\% CI), shuffled labels (orange, dashed), and Romer-Romer 2004 (green, dash-dot).}
 \label{fig:irf_main}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.92\textwidth]{../results/figures/irf_all_variables.png}
-\caption{All four shock series across all eight macro variables. Forecasts-only shock (gray, dotted) is included for completeness.}
-\label{fig:irf_all}
 \end{figure}
 
 \textbf{Key findings from the IRF comparison:}
