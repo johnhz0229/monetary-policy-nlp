@@ -84,24 +84,25 @@ All shocks normalized to unit standard deviation. Dependent variable is the cumu
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.92\textwidth]{../results/figures/irf_three_shocks.png}
-\caption{Cumulative IRF for three shock series, all built with our consistent pipeline (same Ridge implementation, same monthly conversion). AD(2024) full spec (blue, solid, with 95\% CI), shuffled labels (orange, dashed), forecasts-only (gray, dotted).}
+\includegraphics[width=0.88\textwidth]{../results/figures/irf_clean_comparison_v2.png}
+\caption{Cumulative IRF for six macro variables. AD(2024) full spec (blue, solid, with 95\% CI), shuffled labels (orange, dashed), and Romer-Romer 2004 (green, dash-dot). The AD(2024) and shuffled shocks produce essentially identical IRFs; Romer-Romer shocks are noisier.}
 \label{fig:irf_main}
 \end{figure}
 
-\textbf{Our replication shock and the shuffled shock produce essentially identical IRFs.} Across all four variables, the two curves lie within each other's confidence bands at all horizons. This confirms mathematically and empirically that concept-label identity does not affect the macroeconomic interpretation of the identified shocks.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{../results/figures/irf_all_variables.png}
+\caption{All four shock series across all eight macro variables. Forecasts-only shock (gray, dotted) is included for completeness.}
+\label{fig:irf_all}
+\end{figure}
 
-\textbf{The forecasts-only (Romer-Romer style) shock produces noisier IRFs}, consistent with the fact that it uses only numerical forecasts ($R^2 \approx 0.50$), leaving substantial systematic policy variation in the residual. This ``dirty'' shock attenuates the estimated impulse responses. Note that this is \textit{our} version of the Romer-Romer approach, built with the same pipeline as our other shocks---same monthly conversion, same Ridge implementation---so the comparison is clean.
+\textbf{Key findings from the IRF comparison:}
 
-\subsection*{4.2 Why AD(2024) Outperforms Romer-Romer}
-
-AD(2024) argue that Greenbook narrative text contains information about the systematic component of monetary policy beyond numerical forecasts. Our results confirm this: the sentiment-augmented specification achieves $R^2 = 0.96$ (vs.\ $0.49$ for forecasts-only). The higher $R^2$ means less systematic policy contaminates the residual, producing a cleaner shock with tighter IRF confidence bands.
-
-\textbf{The shuffled-label shock performs essentially identically to our replication} ($r = 0.96$, variance ratio $\approx 1.0$). The macroeconomic interpretation of the shocks does not depend on concept-label assignments.
-
-\subsection*{4.3 No Sign Restrictions Needed}
-
-The original AD(2024) paper uses Cholesky identification with and without sign restrictions in their BVAR. Our LP approach does not require sign restrictions at all---the shock is identified externally from text, and the IRF patterns emerge from the data rather than being imposed by assumption. AD(2024) themselves find that results are \textit{more} significant without sign restrictions (their Figure 5), consistent with our approach.
+\begin{itemize}
+    \item \textbf{AD(2024) and shuffled shocks produce essentially identical IRFs.} Across all variables, the two curves lie within each other's confidence bands at all horizons. The mean shuffled shock ($r=0.96$ with the original) generates the same macroeconomic dynamics.
+    \item \textbf{AD(2024) outperforms Romer-Romer.} The text-augmented specification ($R^2=0.96$) produces cleaner shocks with tighter confidence bands than Romer-Romer ($R^2\approx0.50$). This confirms AD(2024)'s core claim: narrative text contains systematic policy information beyond numerical forecasts.
+    \item \textbf{No sign restrictions needed.} Our LP identification is external---the shock comes from text, not from statistical assumptions. This is consistent with AD(2024)'s own finding that results are more significant without sign restrictions.
+\end{itemize}
 
 % ======================================================================
 \section*{5. Overfitting Diagnostics}
