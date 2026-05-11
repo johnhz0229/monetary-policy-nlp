@@ -1,6 +1,6 @@
 # Does Economic Concept Selection Matter for Monetary Policy Shock Identification?
 
-**Evidence and Mathematical Analysis from Aruoba & Drechsel (2024, *Econometrica*)**
+**Evidence and Mathematical Analysis from Aruoba & Drechsel (2024, *AEJ*)**
 
 ---
 
