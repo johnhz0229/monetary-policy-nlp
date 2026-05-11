@@ -119,26 +119,28 @@ The IRF \textbf{shape} is identical; only the amplitude is scaled. With the mean
 
 \subsection*{Empirical IRF Results}
 
-We estimate Local Projections (Jord\`{a} 2005) for four macroeconomic variables at horizons $h = 0, \dots, 36$ months:
+We estimate Local Projections for four macroeconomic variables at horizons $h = 0, \dots, 36$ months, using the standard Jord\`{a} (2005) specification:
 
 \begin{equation}
-y_{t+h} = \alpha_h + \beta_h \cdot \text{shock}_t + \sum_{\ell=1}^4 \gamma_\ell y_{t-\ell} + \sum_{\ell=1}^4 \delta_\ell \text{shock}_{t-\ell} + e_{t+h}
+y_{t+h} - y_{t-1} = \alpha_h + \beta_h \cdot \text{shock}_t + \sum_{\ell=1}^4 \gamma_\ell \Delta y_{t-\ell} + \sum_{\ell=1}^4 \delta_\ell \text{shock}_{t-\ell} + e_{t+h}
 \end{equation}
 
-We compare the original AD(2024) shock against the mean shuffled shock (100 random permutations), standardized to one standard deviation.
+All shocks are normalized to unit standard deviation. The IRF starts at zero by construction at $h=0$ (contemporaneous response $\Delta y_t$) and evolves cumulatively. We compare four shock series: our replication shock, the mean shuffled shock (100 permutations), the AD(2024) original VAR shock, and the Romer-Romer (2004) shock.
+
+We use the standard Jord\`{a} (2005) specification with cumulative response $y_{t+h} - y_{t-1}$ as the dependent variable, which ensures the IRF starts at zero by construction ($h=0 \implies y_t - y_{t-1} = \Delta y_t$, the contemporaneous response). Both VAR-based IRFs and Local Projections estimate the same impulse response function; LP is more robust to dynamic misspecification while VARs produce tighter confidence bands. The two are asymptotically equivalent.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.90\textwidth]{../results/figures/irf_with_ad_shock.png}
-\caption{IRF comparison across four macro variables. Our replication shock (blue), our mean shuffled shock (orange), and the AD(2024) original shock from the replication package (green). Our shuffled shock is nearly identical to our replication shock; the AD(2024) original shock produces broadly similar patterns.}
-\label{fig:irf_compare}
+\includegraphics[width=0.90\textwidth]{../results/figures/irf_cumulative.png}
+\caption{Cumulative IRF ($y_{t+h} - y_{t-1}$) to a one-standard-deviation monetary shock. Our replication shock (blue), mean shuffled shock (orange), and AD(2024) original VAR shock (green). Confidence bands (95\%) shown for our two shocks. The IRFs start at $h=0$ (contemporaneous response) and evolve from there.}
+\label{fig:irf_cum}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.90\textwidth]{../results/figures/irf_four_shocks.png}
-\caption{All four shock series compared. Our replication (blue), our shuffled (orange), AD(2024) original (green), and Romer-Romer 2004 (gray, dotted). The Romer-Romer shock is sparser (fewer non-zero months), producing noisier IRFs.}
-\label{fig:irf_four_shocks}
+\includegraphics[width=0.90\textwidth]{../results/figures/irf_all_cumulative.png}
+\caption{All four shock series: cumulative IRF comparison. Romer-Romer shock (gray, dotted) has fewer non-zero months, producing wider effective dispersion.}
+\label{fig:irf_all}
 \end{figure}
 
 \begin{figure}[H]
