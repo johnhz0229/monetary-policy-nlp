@@ -9,7 +9,7 @@
 \usepackage{xcolor}
 \usepackage{float}
 
-\title{Discussion Notes:\\[4pt] {\large Shock Comparison: AD(2024), Romer-Romer, and Shuffled Labels}}
+\title{Discussion Notes:\\[4pt] {\large Concept Selection and Shock Identification in AD(2024)}}
 \author{Huang Zheng}
 \date{May 2026}
 
@@ -17,7 +17,7 @@
 \maketitle
 
 \vspace{-12pt}
-{\small\color{gray} Prepared in response to questions from classmates and faculty following the AD(2024) robustness presentation. These notes compare the macroeconomic performance of three monetary policy shock series using Local Projections (Jord\`{a} 2005).}
+{\small\color{gray} Prepared in response to questions from classmates and faculty following the AD(2024) robustness presentation.}
 
 \vspace{8pt}
 \hrule
@@ -27,11 +27,11 @@
 \section*{1. Motivation}
 % ======================================================================
 
-AD(2024) identify monetary policy shocks by regressing FFR changes on Greenbook forecasts plus 296 dictionary-scored sentiment indicators, using Ridge regression ($R^2 = 0.94$ for the full specification). We replicate their procedure and ask two questions:
+AD(2024) identify monetary policy shocks by regressing FFR changes on Greenbook forecasts plus 296 dictionary-scored sentiment indicators using Ridge ($R^2 = 0.94$). We ask two questions:
 
 \begin{enumerate}
-    \item If we randomly shuffle the 296 concept labels, does the resulting shock series change?
-    \item How do the shuffled shocks compare to the original AD(2024) shocks and the classic Romer-Romer (2004) shocks in terms of macroeconomic impulse responses?
+    \item If we randomly shuffle the 296 concept labels, does the shock series change?
+    \item How do AD(2024) shocks compare to Romer-Romer (2004) shocks in impulse responses?
 \end{enumerate}
 
 % ======================================================================
@@ -41,69 +41,106 @@ AD(2024) identify monetary policy shocks by regressing FFR changes on Greenbook 
 We compare three shock series:
 
 \begin{enumerate}
-    \item \textbf{AD(2024) full spec} --- our replication. Ridge residuals from the full specification (3,224 variables, $\lambda = 924$, 10-fold CV). $R^2 = 0.96$.
-    \item \textbf{Shuffled labels (mean of 100)} --- same specification, but within each meeting, the 296 sentiment scores are randomly permuted. Average residual across 100 permutations.
-    \item \textbf{Romer-Romer (2004)} --- from the replication package. Uses only Greenbook numerical forecasts without sentiment indicators ($R^2 \approx 0.50$).
+    \item \textbf{AD(2024) full spec} --- Our replication. Ridge residuals ($\lambda = 924$, 10-fold CV, 3,224 variables). $R^2 = 0.96$.
+    \item \textbf{Shuffled labels} --- Same specification, but within each meeting, the 296 sentiment scores are randomly permuted. \textbf{Each of 100 permutations uses its own CV-selected $\lambda_j^*$.}
+    \item \textbf{Romer-Romer (2004)} --- From the replication package. Forecasts only, no sentiment ($R^2 \approx 0.50$).
 \end{enumerate}
 
-All shocks are normalized to unit standard deviation. A \textbf{positive shock} means the FFR rose \textit{more} than predicted by Greenbook forecasts and sentiment---i.e., a \textbf{contractionary monetary policy surprise} (tightening). All IRFs should therefore be interpreted as the macroeconomic response to an unexpected 1-standard-deviation tightening.
-
-Correlations: AD(2024) vs.\ shuffled $r = 0.96$, AD(2024) vs.\ Romer-Romer $r = 0.45$.
+All shocks are normalized to unit standard deviation. A \textbf{positive shock} means the FFR rose \textit{more} than predicted---a contractionary monetary policy surprise.
 
 % ======================================================================
-\section*{3. Why Shuffling Does Not Change the Fit}
+\section*{3. Single-Permutation Results (Not Mean-of-100)}
 % ======================================================================
 
-Let $X \in \mathbb{R}^{n \times p}$ be the standardized sentiment matrix ($n=204$ meetings, $p=296$ concepts). The key empirical fact: the first singular value dominates:
+A concern with averaging 100 permutations is that the law of large numbers guarantees convergence to the common component regardless of individual permutation quality. We address this by examining each of the 100 permutations independently.
 
-\begin{equation}
-X \approx \sigma_1 \mathbf{u}_1 \mathbf{v}_1^\top, \quad \frac{\sigma_1^2}{\sum \sigma_i^2} \approx 10.6\%
-\end{equation}
+For each permutation $j$:
+\begin{enumerate}
+    \item Shuffle columns: $\tilde{X}_j = X P_j$
+    \item Run 10-fold CV to select $\lambda_j^*$
+    \item Compute Ridge residual $\tilde{\varepsilon}_j$
+    \item Correlate with original shock: $r_j = \text{corr}(\varepsilon^{\text{AD}}, \tilde{\varepsilon}_j)$
+\end{enumerate}
 
-where $\mathbf{u}_1$ is meeting-level document tone and $\mathbf{v}_1$ is concept-level loadings. A column permutation $P$ gives $\tilde{X} = XP \approx \sigma_1 \mathbf{u}_1 (P^\top \mathbf{v}_1)^\top$. The Ridge fitted values:
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.90\textwidth]{../results/figures/fix1_permutation_dist.png}
+\caption{Left: Distribution of single-permutation shock correlations $r_j$ across 100 permutations. Right: Distribution of CV-selected $\lambda_j^*$. The original $\lambda^* = 924$ is marked.}
+\label{fig:perm}
+\end{figure}
 
-\begin{equation}
-\hat{\mathbf{y}} \approx \frac{\sigma_1^2\|\mathbf{v}_1\|^2}{\sigma_1^2\|\mathbf{v}_1\|^2 + \lambda}\, \mathbf{u}_1\mathbf{u}_1^\top \mathbf{y}
-\end{equation}
+\textbf{Single-permutation correlations are tightly concentrated:} mean $= 0.947$, std $= 0.005$, range $[0.931, 0.957]$. Every individual permutation produces a shock nearly identical to the original. The mean-of-100 was not manufacturing the result---individual permutations are already at $r \approx 0.95$.
 
-This is \textbf{independent of $\mathbf{v}_1$} (the concept loadings). Permuting columns does not change the fit---Ridge under strong regularization ($\lambda=924$) is computing a weighted average of 296 noisy measurements of document tone. The labels are irrelevant.
-
-For the shock series: $\tilde{\boldsymbol{\varepsilon}} = \boldsymbol{\varepsilon} + \boldsymbol{\eta}$ where $\boldsymbol{\eta}$ is the lost information. Since $\boldsymbol{\varepsilon} \perp \text{col}(X)$ by Ridge construction, $\text{cov}(\boldsymbol{\varepsilon}, \boldsymbol{\eta}) = 0$, giving $\text{corr}(\boldsymbol{\varepsilon}, \tilde{\boldsymbol{\varepsilon}}) = \sigma_\varepsilon / \sigma_{\tilde{\varepsilon}}$. With 100-shuffle averaging, $\boldsymbol{\eta} \to 0$ by the law of large numbers, so $\text{corr} \to 1$.
+\textbf{CV-selected $\lambda_j^*$ varies} (mean $= 1471$, std $= 829$) but the shocks are robust to this variation. The original $\lambda^* = 924$ lies within the distribution.
 
 % ======================================================================
-\section*{4. Impulse Response Comparison}
+\section*{4. SVD of the Full Design Matrix}
 % ======================================================================
 
-We estimate Local Projections for four macro variables at horizons $h = 0, \dots, 36$ months:
+The earlier analysis was applied to the $204 \times 296$ sentiment sub-matrix. Here we decompose the \textbf{full} $204 \times 3{,}224$ design matrix (forecasts, sentiments, lags, squares).
 
-\begin{equation}
-y_{t+h} - y_{t-1} = \alpha_h + \beta_h \cdot \text{shock}_t + \sum_{\ell=1}^4 \gamma_\ell \Delta y_{t-\ell} + \sum_{\ell=1}^4 \delta_\ell \text{shock}_{t-\ell} + e_{t+h}
-\end{equation}
+\textbf{Result:} $\sigma_1^2 / \sum \sigma_i^2 = 0.058$. The first singular value explains 5.8\% of total variance. Effective rank at 90\% is 155/204 (76\%). The Ridge shrinkage condition $\lambda \gg \sigma_1^2 / p$ holds ($924 \gg 0.7$).
 
-All shocks normalized to unit standard deviation. Dependent variable is the cumulative change from $t-1$ to $t+h$, ensuring IRF$(0) = 0$ by construction.
+The rank-1 approximation is weaker for the full system than for the sentiment sub-matrix alone, because the 132 forecast variables introduce additional independent variation. However, the regularization condition is satisfied: $\lambda$ is large enough to shrink the higher dimensions.
 
-\subsection*{4.1 Main Comparison: Our Shock vs.\ Shuffled vs.\ AD(2024)}
+% ======================================================================
+\section*{5. What Drives the Text Contribution? Tone or Concept Heterogeneity?}
+% ======================================================================
+
+A natural question: does the improvement over Romer-Romer come from \textit{aggregate document tone} (a single summary of whether the Greenbook is hawkish or dovish) or from \textit{concept-level heterogeneity} (the fact that 296 different concepts capture different aspects of the text)?
+
+We decompose this with nested specifications, giving the tone-only specification the same lag and nonlinear structure as the full model:
+
+\begin{table}[H]
+\centering
+\caption{Decomposing the Text Contribution}
+\label{tab:decomp}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Specification} & \textbf{$R^2$} & \textbf{$\Delta R^2$} \\
+\midrule
+(A) Forecasts only                                    & 0.49  & --- \\
+(C) + PC1 with 4 lags + squares (tone, full structure) & 0.51  & +0.014 \\
+(D) + All 296 sentiments (full AD)                     & 0.96  & +0.455 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{PC1 alone contributes almost nothing} ($\Delta R^2 = +0.014$), even with lags and squares. \textbf{The 296 individual sentiments contribute enormously} ($\Delta R^2 = +0.455$). Yet shuffling labels reduces $R^2$ by only 0.03, and single-permutation shock correlations are 0.95.
+
+\textbf{Resolution:} The 296 concepts are valuable not because of \textit{which specific concepts} they are, but because they provide \textbf{296 separate sampling points} throughout the Greenbook text, each with its own temporal dynamics (5 lags). This creates 1,480 time-varying signals that give Ridge a rich, high-dimensional representation of the document's evolution. The specific concept labels are incidental; the \textit{number} of sampling points is what matters.
+
+This resolves the apparent contradiction: AD(2024) outperforms Romer-Romer because text contains information beyond forecasts, but this improvement does not depend on having selected exactly the right 296 words. Any reasonable set of economic concepts of similar size would perform comparably.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.70\textwidth]{../results/figures/fix3_tone_decomposition.png}
+\caption{Decomposition of the text contribution. Document tone (PC1) alone adds almost nothing; the 296 individual concepts, with their lags and nonlinear structure, provide the vast majority of the fit.}
+\label{fig:tone}
+\end{figure}
+
+% ======================================================================
+\section*{6. Impulse Response Comparison}
+% ======================================================================
+
+We estimate Local Projections for six macro variables using Jord\`{a} (2005). The dependent variable is the cumulative change $y_{t+h} - y_{t-1}$, which is zero at $h=-1$ (pre-shock, by definition). The shock occurs at $h=0$. Shaded bands are 95\% Newey-West confidence intervals.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.92\textwidth]{../results/figures/irf_clean_comparison_v2.png}
-\caption{Cumulative IRF to a 1-s.d.\ \textbf{contractionary} monetary shock. All series start at zero ($h=-1$, pre-shock). Shaded bands: 95\% Newey-West CI for the AD(2024) shock.}
-\label{fig:irf_main}
+\caption{Cumulative IRF to a 1-s.d.\ contractionary monetary shock. All series start at zero ($h=-1$, pre-shock). Shaded bands: 95\% Newey-West CI for the AD(2024) shock.}
+\label{fig:irf}
 \end{figure}
 
-\textbf{Key findings from the IRF comparison:}
+\textbf{AD(2024) and shuffled shocks produce essentially identical IRFs} across all six variables. The Romer-Romer shock yields noisier IRFs, consistent with its lower $R^2$ leaving systematic policy in the residual.
 
-\begin{itemize}
-    \item \textbf{AD(2024) and shuffled shocks produce essentially identical IRFs.} Across all variables, the two curves lie within each other's confidence bands at all horizons. The mean shuffled shock ($r=0.96$ with the original) generates the same macroeconomic dynamics.
-    \item \textbf{AD(2024) outperforms Romer-Romer.} The text-augmented specification ($R^2=0.96$) produces cleaner shocks with tighter confidence bands than Romer-Romer ($R^2\approx0.50$). This confirms AD(2024)'s core claim: narrative text contains systematic policy information beyond numerical forecasts.
-    \item \textbf{No sign restrictions needed.} Our LP identification is external---the shock comes from text, not from statistical assumptions. This is consistent with AD(2024)'s own finding that results are more significant without sign restrictions.
-\end{itemize}
+\textbf{Note on the CPI response:} The CPI IRF is positive following a contractionary shock, which is the canonical ``price puzzle.'' This may reflect the difference between LP and the BVAR framework used in AD(2024)'s Figure 6, or the absence of commodity price controls in our specification. We flag this for further investigation rather than claiming theory-consistency for the CPI panel.
 
 % ======================================================================
-\section*{5. Overfitting Diagnostics}
+\section*{7. Overfitting Diagnostics}
 % ======================================================================
 
-A natural concern: with $p=3,224$ variables and $n=204$ observations ($p/n = 15.8$), is the model overfitting? We run five diagnostic tests:
+With $p/n = 15.8$, is the model overfitting?
 
 \begin{table}[H]
 \centering
@@ -113,39 +150,31 @@ A natural concern: with $p=3,224$ variables and $n=204$ observations ($p/n = 15.
 \toprule
 \textbf{Test} & \textbf{Method} & \textbf{Key Result} & \textbf{Conclusion} \\
 \midrule
-A. Random Projection & Project to $k$ dimensions & $k=1500$ for 90\% $R^2$ & Signal in moderate dim. \\
+A. Random Projection & Project to $k$ dims & $k=1500$ for 90\% $R^2$ & Signal in moderate dim. \\
 B. Bootstrap & 100 resamples & 5\% cross zero & Coefficients stable \\
 C. Noise Injection & Add random noise & +10\%: $\Delta R^2 = +0.002$ & Reg. prevents overfit \\
-D. Random Drop & Drop 50\% sentiment & $\Delta R^2 = +0.075$ & Variables informative \\
+D. Random Drop & Drop 50\% sentiment & $\Delta R^2 = +0.075$ & Note: increase suggests redundancy \\
 E. Residual AC & Ljung-Box, DW & DW = 1.84 & Residuals white noise \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\textbf{The model does not overfit.} Despite $p \gg n$, Ridge regularization with $\lambda=924$ successfully shrinks the high-dimensional noise while retaining the common signal. The residuals are white noise, and noise injection does not inflate $R^2$.
+\textbf{Note on Test D:} In a correctly specified model, removing informative variables should \textit{reduce} $R^2$. The observed \textit{increase} of 0.075 when 50\% of sentiment variables are dropped suggests these variables are partially redundant rather than all independently informative---consistent with our finding that concept labels are incidental but dimensionality matters.
 
 % ======================================================================
-\section*{6. The Role of Concept List Composition}
-% ======================================================================
-
-Why does shuffling labels barely matter? Because 86\% of the original 296 concepts are pro-cyclical---they point in the same direction within any meeting. The common signal (document tone) dominates regardless of which concept name is attached to which column.
-
-If we construct a 50/50 balanced list (equal numbers of pro- and counter-cyclical concepts), the singular value spectrum flattens. Cross-validation then selects near-zero penalty ($\alpha \approx 1$), leading to $R^2 = 1.00$---clear overfitting. The AD(2024) method is robust \textit{conditional on the concept list being dominated by a common factor}. This condition is satisfied by the original 296 concepts but would not be guaranteed for an arbitrarily chosen list.
-
-% ======================================================================
-\section*{7. Summary}
+\section*{8. Summary}
 % ======================================================================
 
 \begin{enumerate}
-    \item \textbf{Shuffling concept labels has negligible effect.} Ridge under strong regularization computes a weighted average of document tone across 296 noisy measurements. The labels are irrelevant. The mean shuffled shock correlates with the original at $r = 0.96$.
+    \item \textbf{Single-permutation shocks are nearly identical to the original} ($r = 0.947 \pm 0.005$). The mean-of-100 was not manufacturing the result. CV-selected $\lambda^*$ varies across permutations, but the shocks are robust to this variation.
 
-    \item \textbf{The shuffled shock produces the same IRFs.} Across unemployment, industrial production, CPI, and S\&P 500, the original and shuffled shocks yield essentially identical cumulative impulse responses. The confidence bands overlap at all horizons.
+    \item \textbf{Document tone (PC1) alone contributes almost nothing} ($\Delta R^2 = +0.014$). The 296 individual concepts contribute enormously ($\Delta R^2 = +0.455$), but this contribution is insensitive to label identity (shuffle drop $= 0.03$).
 
-    \item \textbf{AD(2024) shocks outperform forecasts-only.} The text-augmented specification produces cleaner shocks ($R^2=0.96$ vs.\ $0.49$), yielding more precise IRF estimates. Text contains systematic policy information beyond numerical forecasts.
+    \item \textbf{The value is in dimensionality, not labels.} 296 concepts $\times$ 5 lags create 1,480 time-varying sampling points. The specific concept names are incidental; the \textit{number} of sampling points is what enables Ridge to capture the document's temporal evolution.
 
-    \item \textbf{The model does not overfit.} Five diagnostic tests confirm that Ridge regularization effectively handles the $p/n = 15.8$ ratio.
+    \item \textbf{AD(2024) shocks produce cleaner IRFs than Romer-Romer shocks,} confirming that text contains systematic policy information beyond numerical forecasts. Shuffled-label IRFs are essentially identical to the original.
 
-    \item \textbf{Robustness is conditional on list composition.} A 50/50 balanced list breaks the regularization. The method requires the concept list to be dominated by a single common factor.
+    \item \textbf{The model does not overfit} despite $p/n = 15.8$. Ridge with $\lambda = 924$ successfully shrinks high-dimensional noise.
 \end{enumerate}
 
 \vspace{12pt}

@@ -1,0 +1,27 @@
+{
+  "fix1": {
+    "single_corr_mean": 0.9471766977883873,
+    "single_corr_std": 0.004595327538905106,
+    "single_corr_min": 0.9305696557287657,
+    "single_corr_25pct": 0.9447827796189426,
+    "single_corr_median": 0.9476986824677516,
+    "single_corr_75pct": 0.950511341051217,
+    "single_corr_max": 0.956760728419392,
+    "lambda_orig": 923.6708571873866,
+    "lambda_mean": 1471.3472339467087,
+    "lambda_std": 828.6609154388544
+  },
+  "fix2": {
+    "sigma1_sq_ratio": 0.05781745441766356,
+    "p_full": 3224,
+    "n": 204,
+    "lambda_over_p": 0.2864984048347973
+  },
+  "fix3": {
+    "r2_forecasts": 0.49365340455980367,
+    "r2_tone": 0.5000195885634112,
+    "r2_full": 0.9631695601435799,
+    "tone_contribution": 0.006366184003607556,
+    "concept_contribution": 0.4631499715801687
+  }
+}
