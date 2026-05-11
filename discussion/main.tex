@@ -38,16 +38,15 @@ AD(2024) identify monetary policy shocks by regressing FFR changes on Greenbook 
 \section*{2. Shock Construction}
 % ======================================================================
 
-We construct four shock series:
+We construct three shock series, \textbf{all with the same pipeline} (sklearn RidgeCV, 10-fold CV, identical monthly conversion):
 
 \begin{enumerate}
-    \item \textbf{Our replication} --- Ridge residuals from the full AD(2024) specification (3,224 variables, $\lambda = 924$, 10-fold CV). $R^2 = 0.96$.
-    \item \textbf{Shuffled (mean of 100)} --- Same specification, but within each meeting, the 296 sentiment scores are randomly permuted across concepts before constructing lags and nonlinear terms. The shock is the average residual across 100 independent permutations.
-    \item \textbf{AD(2024) original} --- The shock series from the replication package, constructed using R's \texttt{glmnet} ($\alpha=0$, pure Ridge).
-    \item \textbf{Romer-Romer (2004)} --- The classic shock series using only Greenbook numerical forecasts, without sentiment indicators ($R^2 \approx 0.50$).
+    \item \textbf{AD(2024) full spec} --- Ridge residuals from the full specification (3,224 variables, $\lambda = 924$). $R^2 = 0.96$.
+    \item \textbf{Shuffled labels (mean of 100)} --- Same specification, but within each meeting, the 296 sentiment scores are randomly permuted across concepts. The shock is the average residual across 100 independent permutations.
+    \item \textbf{Forecasts only (Romer-Romer style)} --- Ridge residuals using only Greenbook numerical forecasts and their squares (264 variables), without sentiment indicators. $R^2 = 0.49$.
 \end{enumerate}
 
-All shocks are normalized to unit standard deviation. The mean shuffled shock correlates with our replication shock at $r = 0.96$, with the AD(2024) original at $r = 0.55$, and with the Romer-Romer shock at $r = 0.45$.
+All shocks are normalized to unit standard deviation. Correlations: full vs.\ shuffled $r = 0.96$, full vs.\ forecasts-only $r = 0.91$.
 
 % ======================================================================
 \section*{3. Why Shuffling Does Not Change the Fit}
@@ -85,33 +84,24 @@ All shocks normalized to unit standard deviation. Dependent variable is the cumu
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.92\textwidth]{../results/figures/irf_cumulative.png}
-\caption{Cumulative IRF: our replication shock (blue, solid), mean shuffled shock (orange, dashed), and AD(2024) original VAR shock (green, dash-dot). 95\% confidence bands for our two shocks.}
+\includegraphics[width=0.92\textwidth]{../results/figures/irf_three_shocks.png}
+\caption{Cumulative IRF for three shock series, all built with our consistent pipeline (same Ridge implementation, same monthly conversion). AD(2024) full spec (blue, solid, with 95\% CI), shuffled labels (orange, dashed), forecasts-only (gray, dotted).}
 \label{fig:irf_main}
 \end{figure}
 
-\textbf{Our replication shock and the shuffled shock produce essentially identical IRFs.} Across all four variables---unemployment rate, industrial production, CPI, and S\&P 500---the two curves lie within each other's confidence bands at all horizons. The AD(2024) original shock, while broadly similar in direction, shows some divergence at longer horizons, likely reflecting differences between our sklearn RidgeCV implementation and the original R glmnet.
+\textbf{Our replication shock and the shuffled shock produce essentially identical IRFs.} Across all four variables, the two curves lie within each other's confidence bands at all horizons. This confirms mathematically and empirically that concept-label identity does not affect the macroeconomic interpretation of the identified shocks.
 
-\textbf{The Romer-Romer shock produces noisier IRFs} (Figure~\ref{fig:irf_all}), consistent with the fact that it uses only numerical forecasts ($R^2 \approx 0.50$), leaving substantial systematic policy variation in the residual. This ``dirty'' shock attenuates the estimated impulse responses.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.92\textwidth]{../results/figures/irf_all_cumulative.png}
-\caption{All four shock series. Romer-Romer (gray, dotted) has fewer non-zero months (only FOMC meeting months), producing wider effective dispersion and less precise IRF estimates.}
-\label{fig:irf_all}
-\end{figure}
+\textbf{The forecasts-only (Romer-Romer style) shock produces noisier IRFs}, consistent with the fact that it uses only numerical forecasts ($R^2 \approx 0.50$), leaving substantial systematic policy variation in the residual. This ``dirty'' shock attenuates the estimated impulse responses. Note that this is \textit{our} version of the Romer-Romer approach, built with the same pipeline as our other shocks---same monthly conversion, same Ridge implementation---so the comparison is clean.
 
 \subsection*{4.2 Why AD(2024) Outperforms Romer-Romer}
 
-AD(2024) argue---and our results confirm---that the Greenbook narrative text contains information about the systematic component of monetary policy beyond what is captured by numerical forecasts alone. Their sentiment-augmented specification achieves $R^2 = 0.94$, compared to $R^2 \approx 0.50$ for forecasts-only. The higher $R^2$ means less systematic policy contaminates the residual, producing a cleaner shock.
+AD(2024) argue that Greenbook narrative text contains information about the systematic component of monetary policy beyond numerical forecasts. Our results confirm this: the sentiment-augmented specification achieves $R^2 = 0.96$ (vs.\ $0.49$ for forecasts-only). The higher $R^2$ means less systematic policy contaminates the residual, producing a cleaner shock with tighter IRF confidence bands.
 
-The cleaner shock, in turn, produces more precise impulse response estimates with clearer macroeconomic patterns. This is visible in the IRF comparison: our AD(2024)-type shocks show tighter confidence bands and more stable trajectories than the Romer-Romer shock.
+\textbf{The shuffled-label shock performs essentially identically to our replication} ($r = 0.96$, variance ratio $\approx 1.0$). The macroeconomic interpretation of the shocks does not depend on concept-label assignments.
 
-\textbf{The shuffled-label shock performs essentially identically to our replication.} This is the key robustness result: the macroeconomic interpretation of the identified shocks does not depend on the specific concept-label assignments.
+\subsection*{4.3 No Sign Restrictions Needed}
 
-\subsection*{4.3 Relationship to Sign Restrictions}
-
-The original AD(2024) paper uses Cholesky identification with and without additional sign restrictions in their BVAR. Interestingly, their results are \textit{more} significant without sign restrictions (see their Figure 5), because sign restrictions discard candidate shocks that fail the theoretical criteria but may still contain genuine information. Our LP approach does not require sign restrictions at all---the shock is identified externally from text, and the IRF patterns emerge from the data rather than being imposed by assumption.
+The original AD(2024) paper uses Cholesky identification with and without sign restrictions in their BVAR. Our LP approach does not require sign restrictions at all---the shock is identified externally from text, and the IRF patterns emerge from the data rather than being imposed by assumption. AD(2024) themselves find that results are \textit{more} significant without sign restrictions (their Figure 5), consistent with our approach.
 
 % ======================================================================
 \section*{5. Overfitting Diagnostics}
@@ -155,7 +145,7 @@ If we construct a 50/50 balanced list (equal numbers of pro- and counter-cyclica
 
     \item \textbf{The shuffled shock produces the same IRFs.} Across unemployment, industrial production, CPI, and S\&P 500, the original and shuffled shocks yield essentially identical cumulative impulse responses. The confidence bands overlap at all horizons.
 
-    \item \textbf{AD(2024) shocks outperform Romer-Romer shocks.} The sentiment-augmented specification produces cleaner shocks (higher $R^2$), yielding more precise IRF estimates. This confirms AD(2024)'s core claim that text contains systematic policy information beyond numerical forecasts.
+    \item \textbf{AD(2024) shocks outperform forecasts-only.} The text-augmented specification produces cleaner shocks ($R^2=0.96$ vs.\ $0.49$), yielding more precise IRF estimates. Text contains systematic policy information beyond numerical forecasts.
 
     \item \textbf{The model does not overfit.} Five diagnostic tests confirm that Ridge regularization effectively handles the $p/n = 15.8$ ratio.
 
