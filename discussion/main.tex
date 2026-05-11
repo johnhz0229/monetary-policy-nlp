@@ -95,7 +95,7 @@ Let $\boldsymbol{\varepsilon} = \mathbf{y} - \hat{\mathbf{y}}(X)$ be the origina
 
 Each $\boldsymbol{\eta}^{(k)}$ has mean zero and is approximately independent across $k$ (different permutations). By the law of large numbers, $\frac{1}{100}\sum \boldsymbol{\eta}^{(k)} \to 0$, so $\bar{\boldsymbol{\varepsilon}} \approx \boldsymbol{\varepsilon}$.
 
-\textbf{Empirical result:} $\text{corr}(\boldsymbol{\varepsilon}, \bar{\boldsymbol{\varepsilon}}) = 0.96$, variance ratio $\approx 1.0$.
+\textbf{Empirical result:} $\text{corr}(\boldsymbol{\varepsilon}, \bar{\boldsymbol{\varepsilon}}) = 0.96$, variance ratio $\approx 1.0$. For context, our replication shock correlates with the AD(2024) original VAR shock at $r = 0.55$ and with the Romer-Romer (2004) shock at $r = 0.42$; AD(2024) and Romer-Romer correlate at $r = 0.70$.
 
 \subsection*{Implications for IRF}
 
@@ -129,9 +129,16 @@ We compare the original AD(2024) shock against the mean shuffled shock (100 rand
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.92\textwidth]{../results/figures/irf_normalized.png}
-\caption{Period-by-period IRF to a one-standard-deviation monetary policy shock. Original shock (blue) vs.\ mean shuffled shock (orange), with 95\% confidence bands. The two IRFs are essentially identical across all four variables.}
-\label{fig:irf_norm}
+\includegraphics[width=0.90\textwidth]{../results/figures/irf_with_ad_shock.png}
+\caption{IRF comparison across four macro variables. Our replication shock (blue), our mean shuffled shock (orange), and the AD(2024) original shock from the replication package (green). Our shuffled shock is nearly identical to our replication shock; the AD(2024) original shock produces broadly similar patterns.}
+\label{fig:irf_compare}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.90\textwidth]{../results/figures/irf_four_shocks.png}
+\caption{All four shock series compared. Our replication (blue), our shuffled (orange), AD(2024) original (green), and Romer-Romer 2004 (gray, dotted). The Romer-Romer shock is sparser (fewer non-zero months), producing noisier IRFs.}
+\label{fig:irf_four_shocks}
 \end{figure}
 
 \begin{figure}[H]
@@ -143,9 +150,10 @@ We compare the original AD(2024) shock against the mean shuffled shock (100 rand
 
 \textbf{Key findings:}
 \begin{itemize}
-    \item The original and shuffled shocks produce \textbf{nearly identical IRFs} across all four macro variables---unemployment, industrial production, CPI, and S\&P 500. The peak response magnitudes and horizons are similar, and the confidence bands overlap substantially.
-    \item The mathematical prediction (Proposition 2) is confirmed empirically: since $\text{corr}(\boldsymbol{\varepsilon}, \bar{\boldsymbol{\varepsilon}}) = 0.96$ and the variance ratio is 1.0, the IRF shapes are indistinguishable.
-    \item This provides direct evidence that concept-label identity has \textbf{no material effect} on the macroeconomic interpretation of the identified shocks.
+    \item Our replication shock and the mean shuffled shock produce \textbf{nearly identical IRFs} across all four macro variables, with overlapping confidence bands throughout.
+    \item The AD(2024) original VAR shock ($r = 0.55$ with ours) produces broadly similar IRF patterns, though with some divergence at longer horizons---likely due to differences in Ridge implementation.
+    \item The Romer-Romer shock ($r = 0.42$ with ours) has fewer non-zero months (only FOMC meeting months), producing noisier IRFs with wider effective confidence bands.
+    \item Despite these differences in shock construction, all four shocks produce IRFs with the same \textbf{directional patterns} across variables, consistent with the mathematical prediction (Proposition 2).
 \end{itemize}
 
 ---
