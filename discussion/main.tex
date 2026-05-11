@@ -119,26 +119,19 @@ The IRF \textbf{shape} is identical; only the amplitude is scaled. With the mean
 
 \subsection*{Empirical IRF Results}
 
-We estimate Local Projections (Jord\`{a} 2005) for the cumulative unemployment response at horizons $h = 0, 1, \dots, 48$ months:
+We estimate Local Projections (Jord\`{a} 2005) for four macroeconomic variables at horizons $h = 0, \dots, 36$ months:
 
 \begin{equation}
-u_{t+h} - u_{t-1} = \alpha_h + \beta_h \cdot \text{shock}_t + \sum_{\ell=1}^4 \gamma_\ell u_{t-\ell} + \sum_{\ell=1}^4 \delta_\ell \text{shock}_{t-\ell} + e_{t+h}
+y_{t+h} = \alpha_h + \beta_h \cdot \text{shock}_t + \sum_{\ell=1}^4 \gamma_\ell y_{t-\ell} + \sum_{\ell=1}^4 \delta_\ell \text{shock}_{t-\ell} + e_{t+h}
 \end{equation}
 
-We compare three shock series: (1) the original AD(2024) shock, (2) the mean shuffled shock (100 random permutations), and (3) a forecasts-only shock (no sentiment indicators, $R^2 = 0.49$).
+We compare the original AD(2024) shock against the mean shuffled shock (100 random permutations), standardized to one standard deviation.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{../results/figures/irf_clean_comparison.png}
-\caption{Cumulative unemployment response: original vs.\ shuffled shocks. The two IRFs are nearly identical in both shape and magnitude.}
-\label{fig:irf_clean}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{../results/figures/irf_four_panel.png}
-\caption{Four-panel IRF comparison. (A) Unemployment response to all three shocks. (B) Log unemployment. (C) Original vs.\ shuffled close-up: nearly identical. (D) Forecasts-only shock produces a smaller, noisier response---the shock is ``dirtier'' because it mixes systematic policy with true shocks.}
-\label{fig:irf_four}
+\includegraphics[width=0.92\textwidth]{../results/figures/irf_normalized.png}
+\caption{Period-by-period IRF to a one-standard-deviation monetary policy shock. Original shock (blue) vs.\ mean shuffled shock (orange), with 95\% confidence bands. The two IRFs are essentially identical across all four variables.}
+\label{fig:irf_norm}
 \end{figure}
 
 \begin{figure}[H]
@@ -150,9 +143,9 @@ We compare three shock series: (1) the original AD(2024) shock, (2) the mean shu
 
 \textbf{Key findings:}
 \begin{itemize}
-    \item The original and shuffled shocks produce nearly identical IRFs---the peak response occurs at the same horizon (47 months) and the shapes are indistinguishable within confidence bands.
-    \item The forecasts-only shock produces a much smaller IRF because it is contaminated with the systematic component of monetary policy. This illustrates why AD(2024)'s sentiment-augmented approach is necessary for clean shock identification.
-    \item The wide confidence bands at long horizons are a well-known feature of Local Projections and reflect the accumulation of forecast error.
+    \item The original and shuffled shocks produce \textbf{nearly identical IRFs} across all four macro variables---unemployment, industrial production, CPI, and S\&P 500. The peak response magnitudes and horizons are similar, and the confidence bands overlap substantially.
+    \item The mathematical prediction (Proposition 2) is confirmed empirically: since $\text{corr}(\boldsymbol{\varepsilon}, \bar{\boldsymbol{\varepsilon}}) = 0.96$ and the variance ratio is 1.0, the IRF shapes are indistinguishable.
+    \item This provides direct evidence that concept-label identity has \textbf{no material effect} on the macroeconomic interpretation of the identified shocks.
 \end{itemize}
 
 ---
@@ -169,14 +162,14 @@ We compare three shock series: (1) the original AD(2024) shock, (2) the mean shu
 \centering
 \caption{Overfitting Diagnostics for the Full Specification}
 \label{tab:diag}
-\begin{tabular}{lp{4cm}cp{3.5cm}}
+\begin{tabular}{lp{3cm}cp{2.5cm}}
 \toprule
 \textbf{Test} & \textbf{Method} & \textbf{Key Result} & \textbf{Conclusion} \\
 \midrule
-A. Random Projection & Project $X$ to $k$ random directions & $k=1500$ (47\%) needed for 90\% $R^2$ & Signal not in very low dimension, but far below $p=3,224$ \\
+A. Random Projection & Project $X$ to $k$ random directions & $k=1500$ (47\%) for 90\% $R^2$ & Signal in moderate dimension, far below $p$ \\
 B. Bootstrap & 100 resamples, check coefficient sign stability & 5\% cross zero & Coefficients directionally consistent \\
-C. Noise Injection & Add $k$ columns of pure noise & +10\% noise $\Delta R^2 = +0.002$ & Regularization prevents noise-fitting \\
-D. Random Drop & Drop 50\% of sentiment columns & $\Delta R^2 = +0.075$ & Variables contain genuine information \\
+C. Noise Injection & Add random noise columns & +10\% noise: $\Delta R^2 = +0.002$ & Regularization works \\
+D. Random Drop & Drop 50\% sentiment columns & $\Delta R^2 = +0.075$ & Variables have information \\
 E. Residual AC & Ljung-Box, Durbin-Watson & DW = 1.84 & \textbf{Residuals are white noise} \\
 \bottomrule
 \end{tabular}
@@ -289,6 +282,6 @@ The LLM list slightly outperforms the original in the mid specification (+0.05 $
 \end{enumerate}
 
 \vspace{12pt}
-{\small\color{gray} All code is in \texttt{src/}. Results and figures are in \texttt{results/}. The presentation is at \texttt{results/beamer\_presentation.pdf}.}
+{\small\color{gray} Code: \texttt{src/}. Results: \texttt{results/}. Presentation: \texttt{results/beamer\_presentation.pdf}.}
 
 \end{document}
