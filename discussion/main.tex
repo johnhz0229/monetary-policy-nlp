@@ -46,7 +46,9 @@ We compare three shock series:
     \item \textbf{Romer-Romer (2004)} --- from the replication package. Uses only Greenbook numerical forecasts without sentiment indicators ($R^2 \approx 0.50$).
 \end{enumerate}
 
-All shocks normalized to unit standard deviation. Correlations: AD(2024) vs.\ shuffled $r = 0.96$, AD(2024) vs.\ Romer-Romer $r = 0.45$.
+All shocks are normalized to unit standard deviation. A \textbf{positive shock} means the FFR rose \textit{more} than predicted by Greenbook forecasts and sentiment---i.e., a \textbf{contractionary monetary policy surprise} (tightening). All IRFs should therefore be interpreted as the macroeconomic response to an unexpected 1-standard-deviation tightening.
+
+Correlations: AD(2024) vs.\ shuffled $r = 0.96$, AD(2024) vs.\ Romer-Romer $r = 0.45$.
 
 % ======================================================================
 \section*{3. Why Shuffling Does Not Change the Fit}
@@ -85,7 +87,7 @@ All shocks normalized to unit standard deviation. Dependent variable is the cumu
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.92\textwidth]{../results/figures/irf_clean_comparison_v2.png}
-\caption{Cumulative IRF ($y_{t+h}-y_{t-1}$). All series start at zero by construction ($h=-1$, pre-shock). Shock occurs at $h=0$. Shaded bands: 95\% Newey-West confidence intervals for the AD(2024) shock.}
+\caption{Cumulative IRF to a 1-s.d.\ \textbf{contractionary} monetary shock. All series start at zero ($h=-1$, pre-shock). Shaded bands: 95\% Newey-West CI for the AD(2024) shock.}
 \label{fig:irf_main}
 \end{figure}
 
