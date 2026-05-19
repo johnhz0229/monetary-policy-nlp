@@ -1,0 +1,10 @@
+Metric,Dict (296),LLM (595)
+Concepts,296,595
+Density (non-zero %),100.0%,21.1%
+Non-zeros per meeting (mean),296.0,5.3
+% Positive per meeting (mean),59.4%,56.0%
+% Positive per meeting (std),0.0993,0.1555
+% Positive per meeting (min),26.7%,14.3%
+% Positive per meeting (max),79.7%,100.0%
+Concepts with mean > 0,119 (40.2%),83 (13.9%)
+Concepts with mean < 0,177 (59.8%),49 (8.2%)

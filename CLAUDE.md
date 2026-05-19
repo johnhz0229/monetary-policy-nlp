@@ -1,7 +1,7 @@
 # monetary-policy-nlp
 ## Replication & Extension of Aruoba & Drechsel (2024, Econometrica) via LLM-Based NLP
 
-The full paper is at `Original_paper_Aruoba_Drechsel.pdf`. Read it before proceeding on any step that touches methodology, variable definitions, table formats, or result interpretation.
+The full paper is at `papers/Original_paper_Aruoba_Drechsel.pdf`. Read it before proceeding on any step that touches methodology, variable definitions, table formats, or result interpretation.
 
 
 ## API Configuration

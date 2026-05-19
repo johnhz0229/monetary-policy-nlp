@@ -1,0 +1,5 @@
+Specification,R²,Δ R²
+Forecasts only,0.3795,0.0
+Forecasts + Dict PC1,0.4582,0.0787
+Forecasts + LLM PC1,0.4113,0.0318
+Forecasts + LLM all (595),0.6087,0.2292

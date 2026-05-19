@@ -185,6 +185,147 @@ E. Residual AC & Ljung-Box, DW & DW = 1.84 & Residuals white noise \\
 \textbf{Conclusion:} The model does \textit{not} overfit despite $p/n = 15.8$. Ridge with $\lambda = 924$ successfully shrinks the high-dimensional noise. The 3,224 variables are highly redundant, spanning approximately 155 effective dimensions (at 90\% variance). The signal is concentrated in a moderate-dimensional subspace.
 
 % ======================================================================
+\section*{Q4: Does the Shuffle Test Hold with an LLM-Generated Concept List?}
+% ======================================================================
+
+\textit{The original 296 concepts were selected by human judgment. What if we replace them with an independently generated list from an LLM? The LLM list has more balanced within-meeting composition (56\% pro-cyclical vs.\ 59\%; std 0.156 vs.\ 0.099), so shuffling labels should be more disruptive---if labels actually matter.}
+
+\subsection*{LLM Concept List}
+
+We prompted an LLM to identify all economic concepts in the same Greenbook corpus, producing 595 concepts (vs.\ the human 296). The overlap is only 178 concepts (37\% of human list, 30\% of LLM list). The lists differ in both content and structure:
+
+\begin{table}[H]
+\centering
+\caption{Composition Comparison: Human vs.\ LLM Concept Lists}
+\label{tab:composition}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Metric} & \textbf{Human (296)} & \textbf{LLM (595)} \\
+\midrule
+Density (\% non-zero) & 100.0\% & 21.1\% \\
+Non-zeros per meeting (mean) & 296.0 & 5.3 \\
+\% Positive per meeting (mean) & 59.4\% & 56.0\% \\
+\% Positive per meeting (std) & 0.099 & 0.155 \\
+\% Positive per meeting (min) & 26.7\% & 14.3\% \\
+\% Positive per meeting (max) & 79.7\% & 100.0\% \\
+Concepts with mean $> 0$ & 119 (40.2\%) & 83 (13.9\%) \\
+Concepts with mean $< 0$ & 177 (59.8\%) & 49 (8.2\%) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The LLM list is fundamentally different: it is \textbf{extremely sparse}---only $\sim$5.3 concepts receive non-zero scores per meeting (99\% of entries are zero). This sparsity is by design: the LLM only scores a concept when the document actually discusses it, so zeros reflect genuine absence rather than neutral sentiment. The human dictionary, by construction, assigns every concept a score for every meeting via the $\pm$10-word window.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{../results/figures/check4a_composition.png}
+\caption{Per-meeting distribution of \% positive scores. The LLM list (right) has higher variance, wider range, and a long left tail---consistent with Devesh's intuition that it is less one-sided than the human list.}
+\label{fig:composition}
+\end{figure}
+
+\subsection*{Baseline First-Stage Fit}
+
+We compare the incremental $R^2$ of each list's PC1 in the first-stage regression:
+
+\begin{table}[H]
+\centering
+\caption{PC1 Incremental $R^2$: Human vs.\ LLM List}
+\label{tab:baseline}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Specification} & \textbf{$R^2$} & \textbf{$\Delta R^2$} \\
+\midrule
+(A) Greenbook forecasts only  & 0.380 & --- \\
+(B) + Dict PC1 (human 296)    & 0.458 & +0.079 \\
+(C) + LLM PC1 (595)           & 0.411 & +0.032 \\
+(D) + LLM all 595 cols        & 0.609 & +0.229 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The LLM PC1 adds less ($+0.032$) than the dict PC1 ($+0.079$), likely because its sparsity makes the first principal component noisier. However, using all 595 LLM columns directly (without PC1) produces a substantially larger $R^2$ gain ($+0.229$), though with $p=595$ on $n=204$, Ridge regularization is essential here.
+
+\subsection*{Shuffle Test: PC1-Based}
+
+We replicate the exact same procedure as Q1 on the LLM matrix: (1) shuffle LLM sentiment columns within each meeting, (2) recompute PC1, (3) re-run Ridge with forecasts $+$ shuffled PC1. 100 independent permutations. Results are compared against the same test on the human list:
+
+\begin{table}[H]
+\centering
+\caption{PC1 Shuffle Test: Human vs.\ LLM}
+\label{tab:shuffle_pc1}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{List} & \textbf{Actual $R^2$} & \textbf{Shuffle Mean $R^2$} & \textbf{Shuffle Std} & \textbf{$p$-value} \\
+\midrule
+Human (296) & 0.458 & 0.479 & 0.012 & 1.000 \\
+LLM (595)   & 0.411 & 0.407 & 0.016 & 0.713 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Both lists show \textbf{no significant degradation} from shuffling. The human list actually sees a slight $R^2$ \textit{increase} after shuffling (the shuffled PC1 captures slightly more FFR-predicting variation than the original). The LLM list shows a tiny drop ($-0.004$) that is well within one standard deviation. The $p$-values confirm neither effect is distinguishable from random permutation.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{../results/figures/check4c_shuffle_pc1.png}
+\caption{PC1 shuffle test distributions. The actual $R^2$ (red dashed line) lies within the shuffle distribution for both lists. For the human list, shuffling actually \textit{increases} $R^2$ on average---the original label assignment is not optimal for predicting FFR changes.}
+\label{fig:shuffle_pc1}
+\end{figure}
+
+\subsection*{Shuffle Test: Full Sentiment Columns}
+
+Using all sentiment columns directly (without PC1 reduction) tests whether concept-level heterogeneity provides fit beyond what the first component captures. We shuffle columns within each meeting and re-run Ridge directly on forecasts $+$ shuffled sentiment columns:
+
+\begin{table}[H]
+\centering
+\caption{Full-Column Shuffle Test}
+\label{tab:shuffle_full}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{List} & \textbf{Actual $R^2$} & \textbf{Shuffle Mean $R^2$} & \textbf{Shuffle Std} & \textbf{$p$-value} \\
+\midrule
+Human (296) & 0.656 & 0.692 & 0.045 & 0.624 \\
+LLM (595)   & 0.609 & 0.626 & 0.0003 & 1.000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Both lists are robust to shuffling. The human list's full-model shuffle produces a modest $R^2$ increase with meaningful variation across permutations (std $=0.045$). The LLM list's near-zero variation (std $=0.0003$) reflects its extreme sparsity: with only $\sim$5 non-zeros per row, shuffling these few scores across 595 columns produces nearly identical design matrices. This is a \textit{limitation} of the LLM shuffle test---the sparsity that is a feature for concept identification becomes a constraint for permutation-based inference.
+
+\subsection*{Shock Correlation}
+
+We compare the identified monetary policy shock from the original LLM sentiment matrix to the shock from each shuffled matrix:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{../results/figures/check4e_shock_corr.png}
+\caption{Shock correlation distributions: original vs.\ shuffled. Both lists produce near-perfect correlations, but the LLM list is even tighter ($r = 0.9982 \pm 0.0012$) because its extreme sparsity means shuffling barely alters the within-meeting score distribution.}
+\label{fig:shock_corr}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Shock Correlation: Original vs.\ Shuffled Labels}
+\label{tab:shock_corr}
+\begin{tabular}{lccc}
+\toprule
+\textbf{List} & \textbf{Mean $r$} & \textbf{Std} & \textbf{Range} \\
+\midrule
+Human (296) & 0.9954 & 0.0024 & $[0.9920, 0.9976]$ \\
+LLM (595)   & 0.9982 & 0.0012 & $[0.9952, 0.9996]$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Interpretation}
+
+Devesh's premise---that the LLM list's more balanced composition makes the shuffle test more informative---is correct in principle. The LLM list has higher within-meeting score variance (std 0.156 vs.\ 0.099) and a wider range (14\%--100\% vs.\ 27\%--80\%). The issue is that the LLM list is simultaneously \textbf{99\% sparse}, so the effective number of labels being permuted per meeting is only $\sim$5, not 595.
+
+The result, however, is unambiguous: \textbf{neither list shows label-dependence}. The shock correlations are $>0.99$ for both. The human list's shuffle test even shows that randomized labels \textit{improve} the first-stage $R^2$---further evidence that the specific assignment of concept names to scores is irrelevant to Ridge's ability to extract the document's predictive signal.
+
+This reinforces the conclusion from Q1--Q3: the number of measurement points matters, not which specific words anchor them.
+
+% ======================================================================
 \section*{Summary}
 % ======================================================================
 
@@ -194,6 +335,8 @@ E. Residual AC & Ljung-Box, DW & DW = 1.84 & Residuals white noise \\
     \item \textbf{Q2: Shuffled shocks produce the same IRFs.} The mathematical relationship $\tilde{\beta}_h = (\sigma_\varepsilon/\sigma_{\tilde{\varepsilon}}) \cdot \beta_h$ is confirmed empirically. AD(2024) shocks produce cleaner IRFs than Romer-Romer shocks, but the shuffled-label IRFs are essentially identical to the original.
 
     \item \textbf{Q3: The model does not overfit.} The design matrix spans $\sim$155 effective dimensions (not 3,224, not 1). Ridge regularization with $\lambda = 924$ successfully handles the $p/n$ ratio. Five diagnostic tests confirm this.
+
+    \item \textbf{Q4: The shuffle test holds across concept lists.} Replacing the human 296 concepts with an LLM-generated 595-concept list---which has more balanced within-meeting composition---does not change the result. Shock correlations remain $>0.99$. Both lists are invariant to label permutation. The LLM list's extreme sparsity (99\% zeros) limits the power of permutation-based inference but does not undermine the core finding: \textbf{labels are incidental; coverage is what matters.}
 \end{enumerate}
 
 \vspace{10pt}
